@@ -7,7 +7,20 @@ import json
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-V1 = json.loads((BASE / "v1_data.json").read_text(encoding="utf-8"))
+
+
+def _find(name: str) -> Path:
+    """优先同目录（隔离复现布局），回退仓库 data/processed 布局。"""
+    p = BASE / name
+    if p.exists():
+        return p
+    alt = BASE.parent / "data" / "processed" / name
+    if alt.exists():
+        return alt
+    raise FileNotFoundError(f"{name} not found in {BASE} or {alt}")
+
+
+V1 = json.loads(_find("v1_data.json").read_text(encoding="utf-8"))
 
 TODAY = "2026-11-15"
 PRICE_DATE = "2026-11-13"   # 行情基准（A股最近收盘）

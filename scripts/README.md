@@ -35,8 +35,9 @@ python compute_v3.py          # 生成 v3_results.json（评分 + 压力测试 +
 python verify_results.py      # 60 项校验
 ```
 
-**实测（2026-11-18，Python 3.12.10）**：`compute_v3.py` rc=0，重算的 `final_score` 与发布版
-`data/processed/v3_results.json` **逐家一致**，阈值同为 50.56 / 53.92、合格企业 7 家。
+**实测（2026-11-18，Python 3.12.10，隔离副本）**：`compute_v3.py` rc=0，重算产出与仓库
+`data/processed/v3_results.json` **字节级完全一致**（SHA256 `af899bc1…` 相同，0 字段差异），阈值同为
+50.56 / 53.92、合格企业 7 家。`verify_results.py` 在同一副本与仓库实际目录下均为 **60/60 PASS**。
 
 > `compute_metrics.py` 会覆盖同目录的 `derived_metrics.json`；在脚本目录操作，不影响仓库 `data/`。
 
@@ -46,7 +47,7 @@ python verify_results.py      # 60 项校验
 
 | 脚本 | 依赖 | 说明 |
 |---|---|---|
-| `build_exhibits_v3.py` | 固定路径 `../../outputs/pig_research_v2_20261115`，输出到 `exhibits/` | 生成 10 张图；仓库已提供成品 `figures/`，无需重跑 |
+| `build_exhibits_v3.py` | 读取 `../data/processed/`，输出到 `../figures_rebuilt/`（本次已适配） | 可运行（实测 rc=0，10 张 PNG），但生成的是**旧版 `fig_*` 自绘图**，与正式 `figures/chart_*`（v5 制图版）不是同一套资产，不能用于替换发布图表 |
 | `build_html_v4.py` | 读取 `report_v4.md`（v4 中间稿，未随仓库发布） | 生成单文件 HTML；仓库提供成品 `report/report.html` |
 | `fix_v61.py` | 读取 `report_v6_final.html`（v6 中间稿，未发布） | v6.1 定点修复（图1角标/成本表/正邦） |
 

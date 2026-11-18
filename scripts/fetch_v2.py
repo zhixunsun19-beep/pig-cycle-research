@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """v2 补取 3 家公司一手三表（华统股份/傲农生物/大北农）。
 数据源与 v1 完全一致：quotes.sina.cn CompanyFinanceService.getFinanceReport2022
-输出：outputs/pig_research_v2_20261115/raw/*.json（原始返回，未经加工）
+输出：脚本同目录 raw/*.json（原始返回，未经加工）；使用前复制到 data/raw/
 """
 import json
 import time

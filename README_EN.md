@@ -103,9 +103,9 @@ python verify_results.py
 
 Measured on Python 3.12.10: the recomputed `final_score` matches the published version company by company, with identical thresholds (50.56 / 53.92) and 7 eligible companies.
 
-### What is *not* one-command reproducible
+### What is only *partly* reproducible
 
-The chart and HTML build scripts depend on intermediate files from the original project (`report_v4.md`, `report_v6_final.html`) and on fixed directory paths. They **cannot run as-is** inside this repository, which is why there is no `run_all.py`. What is reproducible is the *chart data* (`data/processed/chart_data/`), not the build entry point. Details in [`scripts/README.md`](scripts/README.md).
+`build_exhibits_v3.py` now reads from `data/processed/` and has been verified to run (rc=0, 10 PNGs), but it regenerates the **legacy `fig_*` charts**, which are a different asset set from the published `figures/chart_*` (v5 design). Its output therefore goes to `figures_rebuilt/` and never overwrites the published charts. The HTML build scripts still depend on unpublished intermediates (`report_v4.md`, `report_v6_final.html`) and cannot run here, which is why there is no `run_all.py`. Details in [`scripts/README.md`](scripts/README.md).
 
 ---
 

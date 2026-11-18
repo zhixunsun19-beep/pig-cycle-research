@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """reports/pig-cycle-research 图表生成（Step 2 图先行）。
-数据来源：outputs/pig_research_v2_20261115/（derived_metrics.json / v2_results.json / research_data_v2.py）
+数据来源：data/processed/（derived_metrics.json / v3_results.json / v2_results.json）与 scripts/research_data_v2.py
 纪律：只画数据包里真实存在的数据；成本无法核实的公司不入图；缺失值不画 0。
 """
 import json
@@ -13,7 +13,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 BASE = Path(__file__).resolve().parent
-PKG = BASE.parent.parent / "outputs" / "pig_research_v2_20261115"
+PKG = BASE.parent / "data" / "processed"
+sys.path.insert(0, str(BASE))   # research_data_v2.py 位于本目录
 sys.path.insert(0, str(PKG))
 import research_data_v2 as D  # noqa: E402
 
@@ -22,7 +23,7 @@ R = json.loads((PKG / "v3_results.json").read_text(encoding="utf-8"))
 CORE, POOL = R["meta"]["core"], R["meta"]["pool"]
 S, ST, E, Q, RK = R["scores"], R["stress"], R["elasticity"], R["quadrants"], R["rankings"]
 N = D.NAME
-EX = BASE / "exhibits"
+EX = BASE.parent / "figures_rebuilt"  # 旧版自绘 fig_*，与正式 figures/chart_* 不是同一套，避免覆盖
 EX.mkdir(exist_ok=True)
 
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei"]

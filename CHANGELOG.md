@@ -4,6 +4,29 @@
 
 ---
 
+## [2026-11-18] 复现核查与路径修整（只改可验证性，不改结论）
+
+### 新增
+- `data/processed/VERSION_NOTES.md`：v2/v3 版本说明、9 家最终得分差异表（7 家不同、2 家相同）、差异来源与使用规则。旧文件数值未改。
+
+### 修复
+- **旧路径清理**：`outputs/pig_research_v2_20261115/` → 仓库路径（`data/processed/`、`data/raw/`、`scripts/`），涉及 `docs/validation/data_validation.md`、`report/report.md`、`report/report.html`、`sources/source_register.md`、`scripts/build_exhibits_v3.py`、`scripts/fetch_v2.py`、`scripts/README.md`。
+- **S-14**：由失效的本地数据包路径改为仓库内文件，状态改「仓库内已核对」。
+- **来源统计统一**：按登记册实际条目重清点为「接口可用 2 / 仅站点主页 5 / 待补充 6 / 仓库内已核对 1 = 14」，修正此前多处「待补充 7 条、通用主页 4 条」的不一致；未新增任何原文链接，也未把主页标成已核实。
+- **补 3 家未纳入公司**：报告首段由「另有 3 家本轮不纳入」补为「正虹科技 000702、金新农 002548、罗牛山 000735」及原因（依据 `scripts/research_data_v2.py` 的 `EXCLUDED` 常量）。
+- **脚本路径适配**：`research_data_v2.py` 增加 `v1_data.json` 查找回退（先同目录、再 `../data/processed`）；`build_exhibits_v3.py` 改读 `data/processed`、输出 `figures_rebuilt/`（避免覆盖正式图表）。
+
+### 验证（本次实际执行）
+- `compute_v3.py` 在隔离副本重算 → 与 `v3_results.json` **SHA256 相同、0 字段差异**。
+- `verify_results.py` → **60/60 PASS**（隔离副本与仓库目录各一次）。
+- `v3_results.json` vs `chart_data/score_quadrants.csv` → 9 家 × 7 字段 + 阈值全部一致。
+- `build_exhibits_v3.py` → rc=0，生成 10 张 PNG；但属旧版自绘图，与 `figures/chart_*` 非同一资产，已改为不覆盖。
+
+### 未改
+评分方法、权重、阈值、假设、数据截止日、公司分层与结论均未改动；许可与仓库可见性未改。
+
+---
+
 ## [v6.1] — 2026-11-17（发布候选）
 
 ### 修复（三项定点问题）

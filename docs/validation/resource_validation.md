@@ -39,7 +39,7 @@
 
 | 链接 | 目标 | 状态 |
 |---|---|---|
-| `sources/source-register.md` | `reports/pig-cycle-research/sources/` | 存在（S-01～S-14，7 条 URL 待补充） |
+| `sources/source-register.md` | `reports/pig-cycle-research/sources/` | 存在（S-01～S-14，6 条 URL 待补充、5 条仅站点主页） |
 | `data-issues/data-quality-issues.md` | `reports/pig-cycle-research/data-issues/` | 存在（20 条台账） |
 | `appendix/methodology.md` 等 | `reports/pig-cycle-research/appendix/` | 存在 |
 | 点击放大 `exhibits_v5/chart_XX.svg` | `reports/pig-cycle-research/exhibits_v5/` | 存在（10 个 SVG） |

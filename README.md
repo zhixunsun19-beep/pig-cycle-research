@@ -103,9 +103,9 @@ python verify_results.py
 
 实测环境 Python 3.12.10；重算的 `final_score` 与发布版逐家一致，阈值同为 50.56 / 53.92、合格企业 7 家。
 
-### 不能一键复现的部分
+### 部分可复现的部分（如实说明）
 
-图表与 HTML 构建脚本依赖原研究项目的中间文件（`report_v4.md`、`report_v6_final.html`）和固定目录，**仓库内不能直接运行**，因此没有提供 `run_all.py`。图表可复现的是数据（`data/processed/chart_data/`），不是构建入口。逐项说明见 [`scripts/README.md`](scripts/README.md)。
+图表脚本 `build_exhibits_v3.py` 已适配仓库路径，本次实测可运行（rc=0，输出 10 张 PNG），但它生成的是**旧版 `fig_*` 自绘图**，与正式 `figures/chart_*`（v5 制图版）不是同一套资产，因此输出到 `figures_rebuilt/`，不会覆盖发布图表。HTML 构建脚本仍依赖未发布的中间稿（`report_v4.md`、`report_v6_final.html`），不能直接运行。仓库没有提供 `run_all.py`。逐项说明见 [`scripts/README.md`](scripts/README.md)。
 
 ---
 
@@ -150,7 +150,7 @@ python verify_results.py
 3. **集团口径**：无分部现金流，养猪业务跑道无法独立测算。
 4. **跑道含假设**：未计续贷、授信、资产处置；未扣受限资金；维持性资本开支 50% 为假设；跑道不是破产倒计时。
 5. **人工核验有限**：仅对存货、可转债合计等高价值疑点回溯原始数据，其余依赖来源标注。
-6. **来源链接不全**：登记册中 7 条标注「待补充」，未编造 URL。
+6. **来源链接不全**：登记册中 6 条标注「待补充」、5 条仅登记到站点主页，均未编造具体文章 URL。
 
 ---
 
