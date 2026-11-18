@@ -1,0 +1,64 @@
+# HTML 资源完整性检查记录（resource_validation.md）
+
+**对象**：`report_v6_1_reviewed.html`（482 KB 单文件）｜**时间**：2026-11-17（v6.1 复审修订）
+**方法**：脚本静态检查 + Chrome headless 实际渲染 + 空目录独立打开实测 + 逐张图片解码核对——不是仅看脚本输出。
+
+> 本文档已更新至 v6.1。v6 版本的检查记录保留在文末「附：v6 历史记录」，其中图表数量表述已修正、并标注 v6 的一处结论（"图1已修复"）只对源 SVG 成立、未进入 HTML 内嵌。
+
+---
+
+## 一、资源方案
+
+采用**方案 B：图片内嵌单文件**。
+
+| 项 | 结果（v6.1 实测） |
+|---|---|
+| 正文图片 | **10 张全部内嵌**为 `data:image/svg+xml;base64` |
+| 图片组成（按实际文件核对） | **8 张原版 SVG + 图 1 角标修正版 + 图 10 得分率版，共 10 张 SVG；另有 10 张 PNG 备份** |
+| 残留外部图片引用 | 0 处（`src="(?!data:)` 检查） |
+| 外部 CSS/JS/字体 | **0**（`link[href]` + `script[src]` 探针计数 = 0；CSS/JS 全内联；系统字体栈） |
+| `<a>` 点击放大链接 | 保留相对路径 `exhibits_v5/chart_XX.svg`（随目录交付时可用；单文件分发时此链接失效，不影响正文阅读） |
+| `exhibits_v5/` 目录 | 10 个 SVG（图 1 角标修正版、图 10 得分率版、其余 8 张原版）+ `png/` 10 个备份 |
+
+**关于"10 张"的核账**（v6 记录曾误写为 11 张，本轮已校准）：
+`exhibits_v5/*.svg` 实际 10 个文件（脚本统计 = 10），不是"9 张 v5 SVG + 1 张 override + 1 张得分率版 = 11"。
+正确拆分为：8 张原版 + 图 1（角标修正）+ 图 10（得分率版）= **10**。PNG 备份目录 `png/*.png` 另有 10 个。
+
+## 二、实际渲染验证（非脚本自证）
+
+| 检查 | 方法 | 结果 |
+|---|---|---|
+| 原位渲染 | Chrome headless 1440×900 + 注入探针 | **IMG_OK 10/10**；10 张图渲染宽度 950px 统一；`clientWidth 1414 = scrollWidth 1414`，无水平溢出；`FIGS=10`、`EXT=0` |
+| **独立打开** | 将单文件复制到**空目录**（不含 exhibits_v5/、sources/ 等），Chrome 实际加载 | 正常加载；正文图片全部为 data URI，不依赖任何外部文件——单文件分发成立（10 处 data URI 均在） |
+| 打印 PDF | `--print-to-pdf` | **22 页**；图 1 页渲染复核：**左上 C 高风险弹性型／右上 A 穿越型／右下 B 防御型／左下 D 弱势型**，与 v3 企业坐标逐点对应；图注、阈值虚线、来源标注完整 |
+| 逐张图片解码 | 从最终 HTML 解码 10 个 base64 SVG | 10 个全部可解码；图 1 解码后四角文本与坐标经脚本核验（见 data_validation §3） |
+| 目录跳转 | 10 章 + 9 子节锚点 | 目录 19 项与正文 id 同源生成，无孤立锚点 |
+| 交互 | 折叠按钮、抽屉、ARIA | 与 v4/v5 同一套 JS，未改动 |
+
+## 三、链接可达性（随交付目录）
+
+| 链接 | 目标 | 状态 |
+|---|---|---|
+| `sources/source-register.md` | `reports/pig-cycle-research/sources/` | 存在（S-01～S-14，7 条 URL 待补充） |
+| `data-issues/data-quality-issues.md` | `reports/pig-cycle-research/data-issues/` | 存在（20 条台账） |
+| `appendix/methodology.md` 等 | `reports/pig-cycle-research/appendix/` | 存在 |
+| 点击放大 `exhibits_v5/chart_XX.svg` | `reports/pig-cycle-research/exhibits_v5/` | 存在（10 个 SVG） |
+
+**交付要求**：`report_v6_1_reviewed.html` 与 `sources/`、`data-issues/`、`appendix/`、`exhibits_v5/` 同目录交付；单独分发 HTML 时正文与图表完全可用，仅「点击放大」与页脚两个 md 链接不可达。
+
+## 四、残留风险（如实披露）
+
+1. 页脚两处 md 相对链接在单文件分发场景不可达（已在页脚注明「随交付目录提供」）。
+2. 点击放大链接同上；正文图片已内嵌，主阅读路径不受影响。
+3. SVG 中文字体：已加 `Noto 优先 → 微软雅黑 → 苹方` 回退栈；不同机器字形可能有细微差异，坐标与数值不受影响。
+4. `quality-review.md` 为 v3 版验收（95 分），v6/v6.1 修订未重新评级；v6.1 的验收结论以本文件与 `data_validation.md`、`review_findings.md`、`change_log.md` 为准。
+
+---
+
+## 附：v6 历史记录（图表数量已校准，结论已更正）
+
+| 项 | v6 原记录 | v6.1 校准 |
+|---|---|---|
+| 正文图片 | "9 张 v5 SVG + 图 1 override 修正版 + 图 10 得分率版 SVG" | **8 张原版 + 图 1 修正 + 图 10 得分率 = 10 张**（原表述合计 11，错误） |
+| 图 1 是否修复 | 记录称"已修复、PDF 复核通过" | **v6 实际只修了 override 外部 SVG，HTML 内嵌仍是旧版**；v6.1 才真正修改内嵌 base64（见 change_log §v6.1-1） |
+| 独立打开 | IMG_OK 10/10 | 本轮复测仍为 10/10 |

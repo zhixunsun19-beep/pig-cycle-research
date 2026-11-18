@@ -1,0 +1,40 @@
+# ── Python ──
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# ── 系统 / 编辑器 ──
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── 临时与日志 ──
+*.log
+*.tmp
+*.bak
+~$*
+_preview*/
+_temp*/
+*.html.tmp
+
+# ── 安全：任何环境变量与密钥 ──
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+id_rsa*
+
+# ── 本地渲染产物（如自行重跑图表/截图）──
+_exports/
+screenshots/
+
+# ── 可选：若只想保留结构化结果、不公开财报原始科目，取消下一行注释（省约 10.5 MB）──
+# data/raw/
