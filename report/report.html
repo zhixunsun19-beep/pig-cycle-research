@@ -228,7 +228,7 @@ figcaption{margin-top:12px;}
 </ul></nav></aside><main class="main-content"><header class="report-header"><div class="eyebrow">行业深度研究 · A 股生猪养殖</div><h1>A 股生猪养殖企业穿越周期研究</h1><p class="subtitle">底部生存能力与复苏盈利弹性：15 家上市公司比较（2026 年 11 月）</p><div class="header-meta">执行日 2026-11-15　·　研究版本 v3.0　·　文字 v4.0　·　图表整合 v5.0　·　复审修订 v6.1　·　数据截止：财务 2026-09-30 / 行情 2026-11-13</div></header><article class="report-body"><p>本报告的研究主题由委托方指定：寻找行业进入低谷时不容易倒下、行业复苏时又能率先释放利润的 A 股生猪养殖企业，以底部生存能力 × 复苏盈利弹性作为最高判断标准，两个维度分别衡量，不合并为一条排名。股票池固定为 15 家【用户提供】：核心研究池 9 家、风险观察池 6 家，另有 3 家本轮不纳入（正虹科技 000702：养殖规模不足、饲料属性强；金新农 002548：饲料占比高；罗牛山 000735：业务多元、区域性强）。</p>
 <p>执行日 2026-11-15，行情基准为 2026-11-13 收盘；财务基准为 2026 年三季报（2026-09-30，15 家一手财报三表）。研究版本 v3.0（2026-11-16）。本版只做文字编辑与页面呈现优化，未改动研究数据与结论。</p>
 <blockquote>
-<p><strong>关于数据与校验范围</strong>：全部数字来自委托方研究数据包（<code>data/</code>），撰写方未重新采集数据、未改写研究结论；模型修订记录见第 10 章与 <code>data-issues/</code>。计算脚本校验 62/62 项通过、结构校验通过，但该校验仅代表纳入脚本的计算与格式检查，<strong>不包含</strong>人工事实核对、原始来源审查、HTML 资源完整性与来源链接的全面审计——各类检查状态见 <code>quality-review.md</code>。</p>
+<p><strong>关于数据与校验范围</strong>：全部数字来自委托方研究数据包（<code>data/</code>），撰写方未重新采集数据、未改写研究结论；模型修订记录见第 10 章与 <code>data/metadata/data_quality_issues.md</code>。报告 v6.1 自述「62/62 项校验通过」，该 62 项来自 <code>consistency_check.py</code>（脚本与结果记录未随仓库提供，当前不可独立复跑）；仓库内可复跑的是 <code>scripts/verify_results.py</code> 的 60 项数据一致性检查——两者口径不同，不能互相替代。所有校验都仅代表纳入脚本的计算与格式检查，<strong>不包含</strong>人工事实核对、原始来源审查、HTML 资源完整性与来源链接的全面审计——各类检查状态见 <code>quality-review.md</code>。</p>
 </blockquote>
 <h2 id="ch-1">第1章 执行摘要</h2>
 <p>本章用一页篇幅交代行业所处位置、主要结论、重点公司、最大风险与数据限制。详细推导放在后续各章，附录可供复核。</p>
@@ -607,7 +607,7 @@ figcaption{margin-top:12px;}
 </tr>
 </tbody>
 </table></div>
-<p>三条初始发行规模加总为 259.0 亿元。此前报告沿用 v1 的「合计发行额 270.02 亿元」，与明细加总不符且无法在现有材料内核对，已弃用该合计数并登记为数据问题（<code>data-issues/</code>）。初始发行规模不能直接当作 2027 年确定的现金偿还金额：转股、回售、赎回都会改变未偿余额，温氏转债当前余额 77.06 亿元低于初始 78.5 亿元就是一例。其余 12 家的逐笔到期金额无法核实，财报附注仅按期限分桶、贷款也可续贷，因此 A6 项以「短期有息余额＋现金覆盖率」作代理并打 6 折。
+<p>三条初始发行规模加总为 259.0 亿元。此前报告沿用 v1 的「合计发行额 270.02 亿元」，与明细加总不符且无法在现有材料内核对，已弃用该合计数并登记为数据问题（<code>data/metadata/data_quality_issues.md</code>）。初始发行规模不能直接当作 2027 年确定的现金偿还金额：转股、回售、赎回都会改变未偿余额，温氏转债当前余额 77.06 亿元低于初始 78.5 亿元就是一例。其余 12 家的逐笔到期金额无法核实，财报附注仅按期限分桶、贷款也可续贷，因此 A6 项以「短期有息余额＋现金覆盖率」作代理并打 6 折。
 融资成本有两处口径需要注意。正邦科技主口径 35.13%、新五丰 1.83%【测算】，均因租赁负债占广义有息负债 15% 以上而失真，不宜直接引用。新五丰财务费用 1.73 亿元远大于利息费用 0.43 亿元，说明租赁利息未计入「利息费用」科目，表面上的低融资成本并不反映实际负担。</p>
 <h2 id="ch-6">第6章 底部生存能力评估</h2>
 <p>本章把「能撑多久」拆成两个口径分别处理，给出六档猪价情景下的集团现金跑道矩阵，并列出模型的限制条件。需要特别说明的是，上市公司集团的现金承受能力与养猪业务自身的造血能力不是一回事。</p>
@@ -1272,7 +1272,7 @@ v3 评分的双轨结果如下，同时列出原始实得分、有效满分、�
 <p>最终分层为：核心跟踪 3 家（天康、牧原、神农），防御观察 1 家（华统），高弹性但需谨慎 1 家（巨星），弱势型 2 家（温氏、新希望，其中温氏需重点盯防 2027-03 兑付），待核实区 2 家（唐人神、新五丰），风险观察池 6 家全部不作为首选。正邦、傲农在重整恢复期取得了出栏份额，但出栏份额本身不能证明其具备穿越底部的生存能力。</p>
 <p>后续跟踪建议有三项：每季度取一手三表重算现金跑道与评分，脚本已就绪；跟踪各公司现金成本披露动向，哪家先正式披露，哪家的 A2 项先激活；在 2026 年报附注中补取受限货币资金与债务到期分布，以替换目前使用的代理指标。</p>
 <h2 id="ch-10">第10章 数据来源与研究方法</h2>
-<p>本章汇集术语、公式、评分细则、数据缺口与校验记录，供专业读者复核。普通投资者可只读 10.1 术语表。独立文件版见 <code>appendix/</code>、<code>sources/</code> 与 <code>data-issues/</code>。</p>
+<p>本章汇集术语、公式、评分细则、数据缺口与校验记录，供专业读者复核。普通投资者可只读 10.1 术语表。独立文件版见 <code>docs/</code>、<code>sources/</code> 与 <code>data/metadata/</code>。</p>
 <h3 id="sec-10-5">10.1 术语表（普通投资者版）</h3>
 <div class="table-wrap"><table>
 <thead>
@@ -1432,10 +1432,10 @@ v3 评分的双轨结果如下，同时列出原始实得分、有效满分、�
 </table></div>
 <h3 id="sec-10-9">10.5 数据来源与校验记录</h3>
 <ul>
-<li>来源 → 论断映射与链接：<code>sources/source-register.md</code>；数据问题台账：<code>data-issues/data-quality-issues.md</code>；方法论与数据字典：<code>appendix/</code>。</li>
-<li><strong>校验记录（按类别列示，只有实际完成的检查标为通过）</strong>：计算脚本校验 62/62 通过（consistency_check，v3 口径）；结构校验通过（validate-report：编号连续、图片存在、空标题、图表顺序、占位符、表格列数、术语表）；CSV 与报告数字一致性通过（同源生成）；HTML 资源完整性通过（图片 base64 内嵌）。人工事实核对<strong>部分完成</strong>，仅神农存货回原始三表复核，其余依赖数据包自带来源标注；来源可追溯性<strong>部分完成</strong>，已确认的 URL 已给出，其余标为待补充。</li>
+<li>来源 → 论断映射与链接：<code>sources/source_register.md</code>；数据问题台账：<code>data/metadata/data_quality_issues.md</code>；方法论：<code>docs/methodology.md</code>；评分框架：<code>docs/scoring_framework.md</code>。</li>
+<li><strong>校验记录（按类别列示，只有实际完成的检查标为通过）</strong>：仓库内可复跑的是 <code>scripts/verify_results.py</code> <strong>60/60</strong>（只读 <code>data/processed/v3_results.json</code>，实测通过）；报告 v6.1 另有一次 <code>consistency_check.py</code> 对 <code>report_v4.md</code> 的 <strong>62 项</strong>数字比对——属历史自述，脚本与结果记录未入库，当前不可独立复跑，且 62 与 60 不是同一套检查，不能互相替代。结构校验通过（validate-report：编号连续、图片存在、空标题、图表顺序、占位符、表格列数、术语表）；CSV 与报告数字一致性通过（同源生成）；HTML 资源完整性通过（10 张图 base64 内嵌）。人工事实核对<strong>部分完成</strong>，仅神农存货回原始三表复核，其余依赖数据包自带来源标注；来源可追溯性<strong>部分完成</strong>，已确认的 URL 已给出，其余标为待补充。</li>
 </ul>
-</article><footer class="report-footer"><div class="footer-disclaimer"><p><strong>免责声明</strong>：本报告基于公开数据和量化分析，仅供参考，不构成投资建议。市场有风险，投资需谨慎。股票池为研究对象而非推荐名单；2027 年判断均为第三方预测；压力测试为情景假设测算；现金跑道不等同于破产时间；过往表现不预示未来收益。</p></div><div class="footer-meta">版本 v6.1（复审修订版）｜研究版本 v3.0｜修订日期 2026-11-17｜数据截止：财务 2026-09-30 / 行情 2026-11-13｜正文图片已内嵌，单文件可独立打开</div><div class="footer-scope">校验范围限定：计算脚本校验 62/62 与结构校验通过，仅代表纳入脚本的计算与格式检查，不包含全面人工事实核对与原始来源逐条审查。来源登记册见 <a href="../sources/source_register.md">sources/source-register.md</a>，数据问题台账见 <a href="../data/metadata/data_quality_issues.md">data-issues/data-quality-issues.md</a>，随交付目录提供。</div></footer></main></div><button id="to-top" type="button" aria-label="返回顶部">↑</button><script>
+</article><footer class="report-footer"><div class="footer-disclaimer"><p><strong>免责声明</strong>：本报告基于公开数据和量化分析，仅供参考，不构成投资建议。市场有风险，投资需谨慎。股票池为研究对象而非推荐名单；2027 年判断均为第三方预测；压力测试为情景假设测算；现金跑道不等同于破产时间；过往表现不预示未来收益。</p></div><div class="footer-meta">版本 v6.1（复审修订版）｜研究版本 v3.0｜修订日期 2026-11-17｜数据截止：财务 2026-09-30 / 行情 2026-11-13｜正文图片已内嵌，单文件可独立打开</div><div class="footer-scope">校验范围限定：报告 v6.1 自述的 62/62 来自未随仓库提供的 consistency_check.py（历史记录，当前不可复跑）；仓库内可复跑的是 verify_results.py 的 60 项，两者不能互相替代，且都不包含全面人工事实核对与原始来源逐条审查。来源登记册见 <a href="../sources/source_register.md">sources/source_register.md</a>，数据问题台账见 <a href="../data/metadata/data_quality_issues.md">data/metadata/data_quality_issues.md</a>。</div></footer></main></div><button id="to-top" type="button" aria-label="返回顶部">↑</button><script>
 (function(){
   var sidebar=document.getElementById('sidebar');
   var toggle=document.getElementById('menu-toggle');

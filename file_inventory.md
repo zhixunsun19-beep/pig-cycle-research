@@ -106,8 +106,8 @@
 
 | 文件名 | 类型 | 用途 | 公开 | 必要 | 处理 |
 |---|---|---|---|---|---|
-| `methodology.md` | MD | 数据分层、公式、六情景、跑道限制 | ✅ | 是 | 保留（原 `appendix/methodology`） |
-| `scoring_framework.md` | MD | v3 评分细则与 v2→v3 对比 | ✅ | 是 | 保留（原 `appendix/scoring-rules`） |
+| `methodology.md` | MD | 数据分层、公式、六情景、跑道限制 | ✅ | 是 | 保留（原 `appendix/methodology`；原工程目录未随仓库提供） |
+| `scoring_framework.md` | MD | v3 评分细则与 v2→v3 对比 | ✅ | 是 | 保留（原 `appendix/scoring-rules`；原工程目录未随仓库提供） |
 | `assumptions.md` | MD | 全部非披露假设与偏差方向 | ✅ | 是 | 新写 |
 | `validation/data_validation.md` | MD | 数据清单、A2、正邦核验、一致性 | ✅ | 是 | 保留 |
 | `validation/resource_validation.md` | MD | 资源完整性实测 | ✅ | 是 | 保留 |
@@ -121,7 +121,7 @@
 
 | 文件名 | 类型 | 用途 | 公开 | 必要 | 处理 |
 |---|---|---|---|---|---|
-| `source_register.md` | MD | S-01～S-14 登记，URL 三档状态 | ✅ | 是 | 保留（原 `sources/source-register`） |
+| `source_register.md` | MD | S-01～S-14 登记，URL 三档状态 | ✅ | 是 | 保留（原名 `source-register.md`，已统一为下划线） |
 
 ---
 

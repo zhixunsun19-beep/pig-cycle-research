@@ -15,13 +15,13 @@
 | `scripts/compute_v3.py` | v3 计算脚本 | v3 | 2026-11-16 20:24 | 是（评分公式核对依据） | 无 |
 | 根目录 9 个 `v2_*.csv` | 成本/出栏/财务/情景/弹性/可得性/行业/负面/评分 | 研究定稿（文件名含 v2） | 2026-11-16 18:38 | 是 | `行业供需关键读数.csv` 表头与行错位（已知，解析按位置处理） |
 | `data/raw/*.json`（15 个） | 财报三表原始科目 | 一手 | 2026-11-15 | 是 | 无 |
-| `reports/pig-cycle-research/report_v6.md` | v6 正文 | v6 | 2026-11-17 | 产物 | 无 |
-| `reports/pig-cycle-research/exhibits_v5/` | 10 张 SVG（8 张原版 + 图 1 角标修正版 + 图 10 得分率版）+ 10 张 PNG 备份 | v5/v6.1 | 2026-11-17 | 渲染 | 压缩包内图 10 SVG/PNG 曾不同版，已处理 |
-| `outputs/pig_research_v4_charts/override/` | 图 1 角标修正版 + 图 10 得分率版 SVG | v6 | 2026-11-17 | 是 | 无 |
-| `sources/source-register.md`、`data-issues/`、`appendix/`、`quality-review.md` | 来源/台账/方法/验收 | v3 | 2026-11-16 | 参考 | `quality-review.md` 为 v3 版验收，本轮 v6 修订未重评（见下） |
-| `consistency_check_results.md` | v3 一致性记录 | v3 | 2026-11-16 | 参考 | 无 |
+| `reports/pig-cycle-research/report_v6.md`（原工程中间稿） | v6 正文 | v6 | 2026-11-17 | 否——**未随仓库提供** | 成品为 `report/report.md` |
+| `figures/`（原工程 `exhibits_v5/`） | 10 张 SVG（8 张原版 + 图 1 角标修正版 + 图 10 得分率版）+ 10 张 PNG | v5/v6.1 | 2026-11-17 | 渲染 | 与原工程 `exhibits_v5/` 逐张 SHA256 相同 |
+| `outputs/pig_research_v4_charts/override/`（原工程目录） | 图 1 角标修正版 + 图 10 得分率版 SVG | v6 | 2026-11-17 | 否——**未随仓库提供** | 内容已并入 `figures/chart_01_quadrant_matrix.svg`、`figures/chart_10_score_components.svg` |
+| `sources/source_register.md`、`data/metadata/data_quality_issues.md`、`docs/`、`quality-review.md` | 来源/台账/方法/验收 | v3 | 2026-11-16 | 参考 | `quality-review.md` 为 v3 版验收，本轮 v6 修订未重评（见下） |
+| `consistency_check_results.md`（原工程记录） | v3 一致性记录（62 项） | v3 | 2026-11-16 | 否——**未随仓库提供** | 62 项仅作历史自述，不可独立复跑 |
 
-**缺失文件**：无。用户提示词中列出的文件全部存在。
+**缺失文件**：仓库内计算与核对所需文件齐全；上表中标注「未随仓库提供」的是原研究工程的中间稿/记录，不影响 v3 重算与 60 项校验。
 **版本纪律**：评分相关数字全部来自 v3；v2 旧分（64.10 等）仅出现在「新旧评分对比表」的 v2 列并明确标注，未混用。
 
 ---
@@ -42,7 +42,7 @@
 | 新五丰 | False | None | — | 50.0 | 14.03 |
 | 华统股份 | False | None | — | 50.0 | 50.56 |
 
-**结论**：9/9 家未评分；有效满分 60→50 正确；得分率分母为有效权重；正文 5 处「8 家」已全部改 9 家；图 10 显示「—」而非 0%。
+**结论**：9/9 家未评分；有效满分 60→50 正确；得分率分母为有效权重；「核心池 8 家」已统一为 9 家（2026-11-19 补齐 `missing_data.md`、`methodology.md`、`quality-review.md`、`data_quality_issues.md` 四处残留）；图 10 显示「—」而非 0%。
 
 ### 2. 东瑞 A2 示例复算（非 v3 核心池输出）
 
@@ -64,13 +64,13 @@ compute_v3.quadrants 不含跑道分档；图 1 坐标为双得分率。正文�
 
 | 检查 | 结果 |
 |---|---|
-| consistency_check.py（report_v6.md vs v3_results.json） | **62/62 PASS**、表格结构 PASS |
+| consistency_check.py（report_v6.md vs v3_results.json） | **62/62 PASS（历史记录）**、表格结构 PASS；脚本与结果记录未随仓库提供，当前不可独立复跑。仓库内可复跑的是 `scripts/verify_results.py` 60 项（只读 `v3_results.json`），两者口径不同 |
 | 关键数字抽查（19 项，见下） | 19/19 有效通过（1 项误报说明见下） |
 
 19 项抽查：三家最终得分 61.76/57.62/56.84、阈值 50.56/53.92、牧原生存率 60.58、跑道 9.2/1.7/40.1、成本区间 11.40–13.80 与 11.40–12.50、转债 259.0 亿元、A2 9 家表述、温氏 D 类、图 1 图注象限说明、方法论统一表述、非盈利预测声明、集团口径声明——全部命中。
 误报说明：「无 v2 旧分 64.10」检查项 MISS，因 64.10 合法出现在第 8 章「新旧评分对比表」的 v2 列（明确标注版本、声明不可互比），属检查器设计疏漏，非报告问题。
 
-**v6.1 复核（对最终 `report_v6_1_reviewed.html`）**：18 项关键检查 **18/18 通过**——含最终得分 61.76/57.62/56.84、阈值 50.56/53.92、跑道 9.2/1.7/40.1、成本区间、转债 259.0、A2「核心池 9 家」无「8 家」、`+36%` 残留 0、`27.3%` 有、象限定义「右上A/右下B/左上C/左下D」。`consistency_check`（report_v6.md）仍 62/62 PASS。图 1 四角与成本四格从 HTML 解码/提取复核，见第四节与本轮 review_findings。
+**v6.1 复核（对最终 `report_v6_1_reviewed.html`）**：18 项关键检查 **18/18 通过**——含最终得分 61.76/57.62/56.84、阈值 50.56/53.92、跑道 9.2/1.7/40.1、成本区间、转债 259.0、A2「核心池 9 家」无「8 家」、`+36%` 残留 0、`27.3%` 有、象限定义「右上A/右下B/左上C/左下D」。`consistency_check`（report_v6.md）仍 62/62 PASS——属历史自述，脚本与结果未入库，不可独立复跑；仓库内可复跑的是 `verify_results.py` 60 项。图 1 四角与成本四格从 HTML 解码/提取复核，见第四节与本轮 review_findings。
 
 ---
 

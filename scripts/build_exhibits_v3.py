@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 
 BASE = Path(__file__).resolve().parent
 PKG = BASE.parent / "data" / "processed"
-sys.path.insert(0, str(BASE))   # research_data_v2.py 位于本目录
 sys.path.insert(0, str(PKG))
+sys.path.insert(0, str(BASE))   # scripts/ 优先：research_data_v2.py 在本目录，避免 data/processed 同名模块抢先
 import research_data_v2 as D  # noqa: E402
 
 M = json.loads((PKG / "derived_metrics.json").read_text(encoding="utf-8"))

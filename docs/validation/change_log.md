@@ -127,4 +127,4 @@
 
 ## 未改动清单
 
-`report.md`、`report_v4.md`、`report_v4_readable.html`、`report_v5_integrated.html`、`report.html`、`v3_results.json`、`v2_results.json`、`derived_metrics.json`、`research_data_v2.py`、`compute_v3.py`、根目录 9 个 `v2_*.csv`、`exhibits/`、`appendix/`、`sources/`、`data-issues/` —— 均未修改。
+`report.md`、`report_v4.md`、`report_v4_readable.html`、`report_v5_integrated.html`、`report.html`、`v3_results.json`、`v2_results.json`、`derived_metrics.json`、`research_data_v2.py`、`compute_v3.py`、根目录 9 个 `v2_*.csv`、`exhibits/`、`appendix/`、`sources/`、`data-issues/` —— 均未修改（其中 `report_v4*.html`、`report_v5_integrated.html`、`exhibits/`、`appendix/`、`data-issues/` 为原工程目录，未随仓库提供）。

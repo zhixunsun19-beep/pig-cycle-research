@@ -35,6 +35,7 @@ id_rsa*
 # ── 本地渲染产物（如自行重跑图表/截图）──
 _exports/
 screenshots/
+figures_rebuilt/
 
 # ── 可选：若只想保留结构化结果、不公开财报原始科目，取消下一行注释（省约 10.5 MB）──
 # data/raw/
