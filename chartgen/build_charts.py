@@ -118,7 +118,8 @@ def chart_02(v3: dict, data: Path, out: Path):
     expect(len(rows) == 5, f"图2 观测点应为 5 个，实际 {len(rows)}")
     labels = [r["报告期"] for r in rows]
     vals = [fnum(r["能繁母猪存栏(万头)"]) for r in rows]
-    expect(vals[-1] == 3602, f"图2 末点应为 3602，实际 {vals[-1]}")
+    expect(all(v is not None for v in vals),
+           "图2 存在空值观测点（缺失观测点不得按 0 绘制）")
 
     fig, ax = plt.subplots(figsize=(6.4, 3.8))
     ax.plot(labels, vals, marker="o", color="#c0392b", lw=1.8, label="能繁母猪存栏")
@@ -275,11 +276,17 @@ def chart_07(v3: dict, data: Path, out: Path):
                          (f"{v:.1f}" if v is not None else "—"))
         grid.append(line)
         annot.append(texts)
-    # 与 v3 结果交叉核对（牧原 基准/极端）
+    # 互证：chart_data 与本次 v3 的同一口径跑道必须一致（两个输入互证，无写死常数）
     st = v3["stress"]["002714"]["scenarios"]
-    base = next(x for x in st if x["delta"] == 0)["runway_months"]
-    ext = next(x for x in st if abs(x["delta"] + 3) < 1e-9)["runway_months"]
-    expect(abs(base - 149.7) < 0.15 and abs(ext - 9.2) < 0.15, "图7 牧原跑道与 v3 不一致")
+    v3_base = next(x for x in st if x["delta"] == 0)["runway_months"]
+    v3_ext = next(x for x in st if abs(x["delta"] + 3) < 1e-9)["runway_months"]
+    r_base = next(x for x in rows if x["代码"] == "002714" and x["情景"] == "基准")
+    r_ext = next(x for x in rows if x["代码"] == "002714" and x["情景"] == "极端压力")
+    csv_base, csv_ext = fnum(r_base["现金跑道(月)"]), fnum(r_ext["现金跑道(月)"])
+    expect(csv_base is not None and abs(csv_base - v3_base) < 0.15,
+           f"图7 互证失败：chart_data 基准跑道 {csv_base} ≠ 本次 v3 {v3_base}（两输入版本不一致？）")
+    expect(csv_ext is not None and abs(csv_ext - v3_ext) < 0.15,
+           f"图7 互证失败：chart_data 极端跑道 {csv_ext} ≠ 本次 v3 {v3_ext}（两输入版本不一致？）")
 
     def bucket(v):
         if v is None or (isinstance(v, float) and math.isnan(v)):

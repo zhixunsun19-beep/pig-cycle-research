@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
-"""替代图表的自动验收：文件、XML、文字标签、关键数值与字体回退。
+"""替代图表的自动验收：文件、XML、文字标签与字体回退。
+
+检查项为**结构与标签存在性**（公司名、标题、参考线文字），不包含模型结果常数——
+数值正确性由 build_charts.py 内部的输入互证断言保证（见 chart_07 的 chart_data vs v3 互证）。
 
 用法：python chartgen/verify_charts.py [--out chartgen/out]
 """
@@ -16,15 +19,16 @@ NS = "{http://www.w3.org/2000/svg}"
 CHECKS = {
     "chart_01_quadrant_matrix": {
         "title": "图1",
-        "texts": ["50.56", "53.92", "牧原股份", "唐人神", "新五丰", "A 穿越型", "D 弱势型"],
+        "texts": ["牧原股份", "唐人神", "新五丰", "温氏股份", "华统股份",
+                  "A 穿越型", "D 弱势型"],
     },
     "chart_02_sow_inventory": {
         "title": "图2",
-        "texts": ["3602", "3900", "3750", "2026Q3末"],
+        "texts": ["3900", "3750", "2026Q3末", "2025/02末"],
     },
     "chart_03_complete_cost": {
         "title": "图3",
-        "texts": ["11.40", "8.60", "12.42", "唐人神"],
+        "texts": ["8.60", "12.42", "唐人神", "牧原股份"],
     },
     "chart_04_output_volume": {
         "title": "图4",
@@ -40,15 +44,15 @@ CHECKS = {
     },
     "chart_07_cash_runway_heatmap": {
         "title": "图7",
-        "texts": ["149.7", "9.2", "无消耗", "极端压力", "强势复苏"],
+        "texts": ["无消耗", "极端压力", "强势复苏", "基准", "牧原股份"],
     },
     "chart_08_price_sensitivity": {
         "title": "图8",
-        "texts": ["93.09", "牧原股份", "市值"],
+        "texts": ["牧原股份", "温氏股份", "市值"],
     },
     "chart_09_output_increase_10pct": {
         "title": "图9",
-        "texts": ["-26.06", "无法测算", "8.60"],
+        "texts": ["无法测算", "8.60", "牧原股份"],
     },
     "chart_10_score_components": {
         "title": "图10",

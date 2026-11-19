@@ -22,7 +22,10 @@
 - 固定资产净额 = 固定资产原值 − 累计折旧 − 固定资产减值准备
   （接口同时给出“固定资产净值”，但不扣减值，本仓库统一按扣减值口径）。
 - 缺失与 0 严格区分：科目返回 null 记为 null，不按 0 计；求和时 null 跳过，
-  全为 null 则输出 null。
+  全为 null 则输出 null。**例外（如实说明）**：资产负债率/流动比率的分子缺失时按 0
+  参与（仅分母存在即计算）；有息负债各分量全空时输出 None。
+- 同名科目保留首次出现（接口存在重复行；个别科目首条为空、后续有值，见
+  audit/field_mapping.md §6 的已知缺口）。
 
 补录层
 ------
@@ -185,9 +188,12 @@ def build_company(rec: dict) -> dict:
 
     def debt(p):
         b = bs.get(p, {})
-        st = s(b.get("短期借款") or 0, b.get("应付短期债券") or 0,
-               b.get("一年内到期的非流动负债") or 0)
-        lt = s(b.get("长期借款") or 0, b.get("应付债券") or 0)
+        st_parts = [b.get("短期借款"), b.get("应付短期债券"),
+                    b.get("一年内到期的非流动负债")]
+        lt_parts = [b.get("长期借款"), b.get("应付债券")]
+        # 有任一非空分量才求和（None 跳过）；全空输出 None，不按 0 计
+        st = s(*st_parts) if any(v is not None for v in st_parts) else None
+        lt = s(*lt_parts) if any(v is not None for v in lt_parts) else None
         tot = s(st, lt)
         cash = b.get("货币资金")
         total_assets = b.get("总资产")

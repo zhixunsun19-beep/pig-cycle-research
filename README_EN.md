@@ -122,6 +122,12 @@ Chart replacement:
 py -3.12 chartgen/build_charts.py && py -3.12 chartgen/verify_charts.py
 ```
 
+**Chart input boundary (honest scope)**: only charts 1/7/8/10 read the `--v3` pipeline output;
+**charts 2/3/4/5/6/9 are anchored to the published `chart_data/*.csv` and do not follow the
+recomputation** — they were not rewired in this round. Assertions in `chartgen/` contain no
+historical-result constants; chart 7 fails as a whole (naming both compared objects) when
+chart_data and v3 versions diverge.
+
 Details: [`scripts/README.md`](scripts/README.md), [`audit/chain_validation.md`](audit/chain_validation.md), [`chartgen/README.md`](chartgen/README.md).
 
 ---

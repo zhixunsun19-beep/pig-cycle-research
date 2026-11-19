@@ -121,6 +121,10 @@ py -3.12 scripts/run_pipeline.py --raw data/raw --out build/chain --compare-base
 py -3.12 chartgen/build_charts.py && py -3.12 chartgen/verify_charts.py
 ```
 
+**图表输入边界（如实说明）**：10 张图中仅图 1/7/8/10 读取 `--v3` 指定的流水线产物；
+**图 2/3/4/5/6/9 锚定发布版 `chart_data/*.csv`，不随本次重算自动更新**，本轮未改接。
+`chartgen/` 的断言不含历史结果常数；图 7 在 chart_data 与 v3 版本不一致时会整体失败并写明两个比较对象。
+
 逐项说明见 [`scripts/README.md`](scripts/README.md)、[`audit/chain_validation.md`](audit/chain_validation.md)、[`chartgen/README.md`](chartgen/README.md)。
 
 ---

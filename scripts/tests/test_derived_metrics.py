@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -138,6 +139,29 @@ class IntegrationTests(unittest.TestCase):
             logged = json.loads(audit.read_text(encoding="utf-8"))
             self.assertEqual(len(logged), 1)
             self.assertEqual(logged[0]["source"], "测试补录")
+
+    def test_debt_missing_period_yields_none(self):
+        """整个期间缺失时，有息负债字段应为 None，不得按 0 计；其他期间不受影响。"""
+        with tempfile.TemporaryDirectory() as d:
+            raw = Path(d) / "raw"
+            shutil.copytree(REPO / "data" / "raw", raw)
+            rec = json.loads((raw / "002714.json").read_text(encoding="utf-8"))
+            del rec["reports"]["fzb"]["20260630"]
+            (raw / "002714.json").write_text(
+                json.dumps(rec, ensure_ascii=False), encoding="utf-8")
+            out = Path(d) / "d.json"
+            p = subprocess.run([sys.executable, str(SCRIPTS / "build_derived_metrics.py"),
+                                "--raw", str(raw), "--out", str(out)],
+                               capture_output=True, text=True, encoding="utf-8")
+            self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
+            data = json.loads(out.read_text(encoding="utf-8"))
+            q2 = data["002714"]["有息负债_2026Q2"]
+            self.assertIsNone(q2["短期有息负债"])
+            self.assertIsNone(q2["长期有息负债"])
+            self.assertIsNone(q2["有息负债合计"])
+            self.assertIsNone(q2["资产负债率_pct"])
+            self.assertIsNotNone(data["002714"]["有息负债_2026Q3"]["有息负债合计"])
+            self.assertIsNotNone(data["002714"]["有息负债_2025年末"]["有息负债合计"])
 
     def test_pipeline_end_to_end(self):
         with tempfile.TemporaryDirectory() as d:

@@ -61,6 +61,10 @@ python run_pipeline.py --raw ../data/raw --out ../build/chain --compare-baseline
 - `../chartgen/build_charts.py`（本轮新增）：**替代**制图工程，读取
   `../data/processed/v3_results.json` 与 `chart_data/*.csv`，输出 10 张
   `chart_*` SVG/PNG 到 `../chartgen/out/`；带数据断言，不触碰 `figures/`。
+  **输入边界**：仅图 1/7/8/10 读取 `--v3` 指定的流水线产物；图 2/3/4/5/6/9
+  锚定发布版 `chart_data/*.csv`，不随重算自动更新（本轮未改接）。
+  断言不含历史结果常数；图 7 在 chart_data 与 v3 版本不一致时整体失败，
+  报错写明两个比较对象。
 - 原 v5 制图工程未随仓库提供（仅有成品 SVG 与 `chart_notes.md`）；
   `chartgen` 是**替代实现**，不称为「恢复原工程」。
 
