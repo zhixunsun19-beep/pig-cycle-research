@@ -21,48 +21,69 @@ A2 未评分 9/9、有效满分 50/35、`comparable_score` 可复算、`final_sc
 
 **实测结果：PASS 60 / FAIL 0。** 若失败会打印具体项并返回退出码 1。
 
-## 3. 评分链复现（实测可跑）
+## 3. 评分重算（基于已发布的中间数据，实测可跑）
 
-脚本按「数据与脚本同目录」设计。把数据放到脚本目录后即可重算：
+本仓库可复现的是**「用 `data/processed/` 中已发布的中间数据重算 v3」**，不是「从原始财报端到端复现」。
+
+- 输入：`../data/processed/derived_metrics.json`（28 字段/家）、`../data/processed/v1_data.json`
+- 脚本：`compute_v3.py`、`research_data_v2.py`、`verify_results.py`（仅标准库）
+- 上游缺口：`compute_metrics.py` 是旧版生成器，只产出 17 字段/家，缺 `生产性生物资产_*`、`在建工程_*`、`期间费用_*`、`利润表扩展_*`、`资产负债表扩展_*` 共 11 个字段；用它覆盖输入会让 `compute_v3.py` 报错。完整生成器未随仓库提供。
+
+所有步骤在仓库外临时目录执行，不写 `scripts/` 或 `data/processed/`：
 
 ```bash
-# 在 scripts/ 下准备数据
-cp -r ../data/raw ./raw
-cp ../data/processed/v1_data.json ../data/processed/derived_metrics.json ./
+REPO="$(pwd)"          # repository root
+TMP="$(mktemp -d)"     # temp dir outside the repo (PowerShell: New-Item -ItemType Directory)
 
-python compute_metrics.py     # 可选：从 raw/ 三表重算 derived_metrics.json
-python compute_v3.py          # 生成 v3_results.json（评分 + 压力测试 + 四象限）
-python verify_results.py      # 60 项校验
+# 1) copy scripts and published inputs
+cp "$REPO/scripts/compute_v3.py" \
+   "$REPO/scripts/research_data_v2.py" \
+   "$REPO/scripts/verify_results.py" "$TMP"/
+cp "$REPO/data/processed/derived_metrics.json" \
+   "$REPO/data/processed/v1_data.json" "$TMP"/
+
+# 2) recompute, then verify THIS output explicitly
+cd "$TMP"
+python compute_v3.py
+python verify_results.py --metrics v3_results.json
+
+# 3) compare with the published baseline
+sha256sum v3_results.json "$REPO/data/processed/v3_results.json"
+cmp v3_results.json "$REPO/data/processed/v3_results.json" && echo "byte-identical"
 ```
 
-**实测（2026-11-18，Python 3.12.10）**：`compute_v3.py` rc=0，重算的 `final_score` 与发布版
-`data/processed/v3_results.json` **逐家一致**，阈值同为 50.56 / 53.92、合格企业 7 家。
+**实测（2026-11-19，Python 3.12.10）**：`compute_v3.py` rc=0；`v3_results.json` SHA256 `af899bc1…`；
+`verify_results.py --metrics v3_results.json` → **PASS 60 / FAIL 0**（读取的是本次产物）；
+与仓库 `data/processed/v3_results.json` `cmp` 无差异。运行前后仓库输入与发布结果哈希不变。
 
-> `compute_metrics.py` 会覆盖同目录的 `derived_metrics.json`；在脚本目录操作，不影响仓库 `data/`。
+> `verify_results.py` 默认读 `../data/processed/v3_results.json`（发布件）。重算后必须加 `--metrics <本次输出>`，
+> 否则校验的是发布件，不能用来证明重算通过。
+
+> `compute_metrics.py` 仍保留作方法参考，但不要放进 v3 重算链：它只产出 17/28 字段。
 
 ## 4. 图表与 HTML 构建脚本：不承诺一键重跑
 
-以下脚本依赖原研究项目的中间文件或固定目录，**仓库内不能直接运行**，仅作为方法透明化保留：
+| 脚本 | 输入 | 输出 | 状态 |
+|---|---|---|---|
+| `build_exhibits_v3.py` | `../data/processed/` | `../figures_rebuilt/fig_*.png` | ✅ 可运行（实测 rc=0，10 张 PNG）。产物是**旧版 `fig_*` 自绘图**，与发布 `figures/chart_*`（v5 制图版）不是同一套资产，**不能替代发布图表**；`figures_rebuilt/` 已加入 `.gitignore`，不会写入 `figures/` |
+| `build_html_v4.py` | `report_v4.md`（未随仓库提供） | 单文件 HTML | ❌ 中间稿缺失 |
+| `fix_v61.py` | `report_v6_final.html`（未随仓库提供） | v6.1 HTML | ❌ 中间稿缺失 |
+| `compute_metrics.py` | `raw/*.json` | `derived_metrics.json`（17 字段/家） | ⚠️ 旧版生成器，不兼容 v3 |
 
-| 脚本 | 依赖 | 说明 |
-|---|---|---|
-| `build_exhibits_v3.py` | 固定路径 `../../outputs/pig_research_v2_20261115`，输出到 `exhibits/` | 生成 10 张图；仓库已提供成品 `figures/`，无需重跑 |
-| `build_html_v4.py` | 读取 `report_v4.md`（v4 中间稿，未随仓库发布） | 生成单文件 HTML；仓库提供成品 `report/report.html` |
-| `fix_v61.py` | 读取 `report_v6_final.html`（v6 中间稿，未发布） | v6.1 定点修复（图1角标/成本表/正邦） |
+**发布图表源工程缺失**：`figures/chart_*` 的源工程与 v5 制图流程未随仓库提供，仓库内无法重建这 10 张图；可复现的是图表**数据**（`data/processed/chart_data/`），不是构建入口。
 
-**因此本仓库不提供 `run_all.py`**——用一条命令跑通整链在当前文件集下并不成立，写了就是虚假承诺。
-图表可复现的是**数据**（`data/processed/chart_data/`），不是构建入口。
+**因此本仓库不提供 `run_all.py`**——用一条命令跑通整链在当前文件集下并不成立。
 
 ## 5. 各脚本职责
 
 | 文件 | 输入 | 输出 | 仓库内可跑 |
 |---|---|---|---|
 | `fetch_v2.py` | 网络 + 财报接口 | `raw/*.json` | ❌ 需外网与接口 |
-| `compute_metrics.py` | `raw/*.json` | `derived_metrics.json` | ⚠️ 复制 `raw/` 后 |
-| `research_data_v2.py` | `v1_data.json` | 研究数据层（被 import） | ⚠️ 复制数据后 |
-| `compute_v3.py` | `derived_metrics.json` + `research_data_v2.py` | `v3_results.json` | ✅ 复制数据后（已实测） |
-| `verify_results.py` | `../data/processed/v3_results.json` | 控制台校验 | ✅ 直接可跑（60/60） |
-| `build_exhibits_v3.py` | 原项目 `outputs/` 路径 | 10 张图 | ❌ 需改路径 |
+| `compute_metrics.py` | `raw/*.json` | `derived_metrics.json`（17 字段/家） | ⚠️ 可运行，但**旧版生成器，不能供 v3 使用** |
+| `research_data_v2.py` | `v1_data.json` | 研究数据层（被 import） | ✅ 直接可 import（回退读 `../data/processed/`，命中路径打印到 stderr） |
+| `compute_v3.py` | `derived_metrics.json` + `research_data_v2.py` | `v3_results.json` | ✅ 按第 3 节复制到临时目录后可跑（已实测） |
+| `verify_results.py` | `--metrics`（默认 `../data/processed/v3_results.json`） | 控制台校验 | ✅ 直接可跑（60/60） |
+| `build_exhibits_v3.py` | `../data/processed/` | `../figures_rebuilt/` 10 张旧版 PNG | ✅ 可跑（需 matplotlib），**不替代发布图表** |
 | `build_html_v4.py` | `report_v4.md` | HTML | ❌ 中间稿未发布 |
 | `fix_v61.py` | `report_v6_final.html` | v6.1 HTML | ❌ 中间稿未发布 |
 

@@ -35,16 +35,16 @@
 | 目录跳转 | 10 章 + 9 子节锚点 | 目录 19 项与正文 id 同源生成，无孤立锚点 |
 | 交互 | 折叠按钮、抽屉、ARIA | 与 v4/v5 同一套 JS，未改动 |
 
-## 三、链接可达性（随交付目录）
+## 三、链接可达性（本仓库路径）
 
 | 链接 | 目标 | 状态 |
 |---|---|---|
-| `sources/source-register.md` | `reports/pig-cycle-research/sources/` | 存在（S-01～S-14，7 条 URL 待补充） |
-| `data-issues/data-quality-issues.md` | `reports/pig-cycle-research/data-issues/` | 存在（20 条台账） |
-| `appendix/methodology.md` 等 | `reports/pig-cycle-research/appendix/` | 存在 |
-| 点击放大 `exhibits_v5/chart_XX.svg` | `reports/pig-cycle-research/exhibits_v5/` | 存在（10 个 SVG） |
+| `sources/source_register.md` | `sources/` | 存在（S-01～S-14，6 条 URL 待补充、5 条仅站点主页） |
+| `data/metadata/data_quality_issues.md` | `data/metadata/` | 存在（20 条台账） |
+| 方法论 / 评分框架 | `docs/methodology.md`、`docs/scoring_framework.md` | 存在；原工程 `appendix/` **未随仓库提供** |
+| 点击放大 `figures/chart_XX.svg` | `figures/` | 存在（10 个 SVG，与原工程 `exhibits_v5/` 逐张 SHA256 相同） |
 
-**交付要求**：`report_v6_1_reviewed.html` 与 `sources/`、`data-issues/`、`appendix/`、`exhibits_v5/` 同目录交付；单独分发 HTML 时正文与图表完全可用，仅「点击放大」与页脚两个 md 链接不可达。
+**交付要求**：本仓库中 `report/report.html` 以相对路径 `../sources/`、`../data/metadata/`、`../figures/` 访问上述文件；单独分发 HTML 时正文与图表完全可用（10 张图已 base64 内嵌），仅「点击放大」与页脚 md 链接不可达。
 
 ## 四、残留风险（如实披露）
 

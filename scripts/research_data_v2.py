@@ -4,10 +4,29 @@
 严格规则：不编造；未披露写 None 并在 note 说明；预测与实现值分开。
 """
 import json
+import sys
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-V1 = json.loads((BASE / "v1_data.json").read_text(encoding="utf-8"))
+
+
+def _find(name: str) -> Path:
+    """优先同目录（隔离复现布局），回退仓库 data/processed 布局。
+
+    命中路径打印到 stderr；两处同时存在同名文件时显式告警并说明取值，
+    避免静默使用旧副本。优先级：脚本同目录 > ../data/processed。
+    """
+    candidates = [BASE / name, BASE.parent / "data" / "processed" / name]
+    hits = [p for p in candidates if p.exists()]
+    if not hits:
+        raise FileNotFoundError(f"{name} not found in {candidates[0]} or {candidates[1]}")
+    if len(hits) > 1:
+        print(f"[warn] {name} 存在多个副本，取 {hits[0]}，忽略 {hits[1]}", file=sys.stderr)
+    print(f"[info] 读取 {name}: {hits[0]}", file=sys.stderr)
+    return hits[0]
+
+
+V1 = json.loads(_find("v1_data.json").read_text(encoding="utf-8"))
 
 TODAY = "2026-11-15"
 PRICE_DATE = "2026-11-13"   # 行情基准（A股最近收盘）

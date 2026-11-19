@@ -2,7 +2,7 @@
 
 **盘点时间**：2026-11-18｜**对应报告**：v6.1（评分口径 v3）
 **说明**：以 `github_release/` 实际存在的文件为准逐项核对；同类文件（如 15 份财报）合并一行并注明命名规则。
-**总计**：99 个文件，约 16.9 MB。
+**总计**：100 个文件，约 16.9 MB。
 
 图例：公开 = `✅ 计划公开` / `⚠️ 需确认`；必要 = 是否属于「读懂报告 / 核对数字 / 复算」所必需；处理 = `保留` / `改写路径` / `去重` / `排除`。
 
@@ -47,7 +47,7 @@
 
 ## 四、数据 `data/`（46）
 
-### 4.1 `processed/`（24）
+### 4.1 `processed/`（25）
 
 | 文件名 | 类型 | 用途 | 版本 | 公开 | 必要 | 处理 |
 |---|---|---|---|---|---|---|
@@ -55,6 +55,7 @@
 | `v2_results.json` | JSON | v2 旧评分（仅供新旧对比，不可互比） | v2 | ✅ | 否 | 保留并标注 |
 | `derived_metrics.json` | JSON | 15 家三表衍生指标 | v3 输入 | ✅ | 是 | 保留 |
 | `v1_data.json` | JSON | v1 研究数据层（`research_data_v2.py` 依赖） | v1 | ✅ | 是（复算） | 补充收录（上轮遗漏） |
+| `VERSION_NOTES.md` | MD | v2/v3 版本说明与 9 家得分差异（不改旧值） | v3 | ✅ | 是 | 新增（本次核查） |
 | `v2_成本排名与口径_15家.csv` | CSV | 成本、期间、口径、来源 | 定稿 | ✅ | 是 | 保留原名 |
 | `v2_股票池核验与出栏量_15家.csv` | CSV | 池核验、出栏、分部拆分 | 定稿 | ✅ | 是 | 保留原名 |
 | `v2_财务安全与偿债_15家.csv` | CSV | 负债率、有息负债、覆盖 | 定稿 | ✅ | 是 | 保留原名 |
@@ -105,8 +106,8 @@
 
 | 文件名 | 类型 | 用途 | 公开 | 必要 | 处理 |
 |---|---|---|---|---|---|
-| `methodology.md` | MD | 数据分层、公式、六情景、跑道限制 | ✅ | 是 | 保留（原 `appendix/methodology`） |
-| `scoring_framework.md` | MD | v3 评分细则与 v2→v3 对比 | ✅ | 是 | 保留（原 `appendix/scoring-rules`） |
+| `methodology.md` | MD | 数据分层、公式、六情景、跑道限制 | ✅ | 是 | 保留（原 `appendix/methodology`；原工程目录未随仓库提供） |
+| `scoring_framework.md` | MD | v3 评分细则与 v2→v3 对比 | ✅ | 是 | 保留（原 `appendix/scoring-rules`；原工程目录未随仓库提供） |
 | `assumptions.md` | MD | 全部非披露假设与偏差方向 | ✅ | 是 | 新写 |
 | `validation/data_validation.md` | MD | 数据清单、A2、正邦核验、一致性 | ✅ | 是 | 保留 |
 | `validation/resource_validation.md` | MD | 资源完整性实测 | ✅ | 是 | 保留 |
@@ -120,7 +121,7 @@
 
 | 文件名 | 类型 | 用途 | 公开 | 必要 | 处理 |
 |---|---|---|---|---|---|
-| `source_register.md` | MD | S-01～S-14 登记，URL 三档状态 | ✅ | 是 | 保留（原 `sources/source-register`） |
+| `source_register.md` | MD | S-01～S-14 登记，URL 三档状态 | ✅ | 是 | 保留（原名 `source-register.md`，已统一为下划线） |
 
 ---
 
@@ -141,8 +142,8 @@
 | 根目录 | 7 | 入口与元数据（中英双语） |
 | `report/` | 4 | HTML / MD / 笔记 / PDF |
 | `figures/` | 21 | 10 对图 + 1 说明 |
-| `data/` | 46 | processed 24 + raw 15 + metadata 6 + README 1 |
+| `data/` | 47 | processed 25 + raw 15 + metadata 6 + README 1 |
 | `scripts/` | 10 | 8 脚本 + 依赖 + 说明 |
 | `docs/` | 10 | 3 方法 + 7 验证 |
 | `sources/` | 1 | 来源登记 |
-| **合计** | **99** | 约 16.9 MB |
+| **合计** | **100** | 约 16.9 MB |

@@ -39,7 +39,7 @@ No dependencies required:
 
 ```bash
 git clone https://github.com/zhixunsun19-beep/pig-cycle-research.git
-cd ./-/scripts
+cd pig-cycle-research/scripts
 python verify_results.py        # measured: PASS 60 / FAIL 0
 ```
 
@@ -71,7 +71,7 @@ Other numbers worth noting:
 |---|---|---|
 | Web (recommended) | [`report/report.html`](report/report.html) | Single file, 10 charts embedded, works offline |
 | Markdown source | [`report/report.md`](report/report.md) | Diff-friendly, editable |
-| Print | [`report/report_print.pdf`](report/report_print.pdf) | 22 pages, A4 |
+| Print | [`report/report_print.pdf`](report/report_print.pdf) | 22 pages, A4; **early v6.1 static snapshot**, does not include the 3 excluded companies added to the opening paragraph — `report.md` / `report.html` are authoritative |
 | Reader's notes | [`report/report_notes.md`](report/report_notes.md) | Version, scope of checks, known issues |
 
 > For GitHub Pages, set the source to the repository root and open `/report/report.html`. Do not publish only `docs/` — `figures/` would break.
@@ -89,23 +89,52 @@ python verify_results.py
 
 It checks: A2 unscored for 9/9, effective maxima 50/35, `final_score` recomputable and consistent with the cap rule, the 7 published scores, coverage and quadrant labels of the pending-review names, thresholds 50.56/53.92, six scenarios, and key runway values. Any mismatch prints the failing item and exits non-zero.
 
-### Recompute the full score
+### Recompute the v3 score (from published intermediate data)
+
+What this repository reproduces is **recomputing the v3 score from the published intermediate data** — not an end-to-end rebuild from the raw financial statements.
+
+- Inputs (both in this repo): `data/processed/derived_metrics.json` (15 companies, 28 fields each) and `data/processed/v1_data.json` (cost/output/events/valuation research layer).
+- Scripts: `scripts/compute_v3.py`, `scripts/research_data_v2.py`, `scripts/verify_results.py`.
+- Standard library only — no `pip install`; measured on Python 3.12.10.
+- **Upstream gap**: `scripts/compute_metrics.py` is a legacy generator producing only 17 fields per company. It lacks 11 fields (`生产性生物资产_*`, `在建工程_*`, `期间费用_*`, `利润表扩展_*`, `资产负债表扩展_*`), so overwriting the input with its output makes `compute_v3.py` fail. The complete generator is not included, so "raw statements → derived_metrics" cannot be reproduced.
+
+Run the following from the **repository root**; all outputs go to a temporary directory outside the repo:
 
 ```bash
-cd scripts
-pip install -r requirements.txt
-cp -r ../data/raw ./raw
-cp ../data/processed/v1_data.json ../data/processed/derived_metrics.json ./
-python compute_metrics.py       # optional: rebuild derived metrics from the three statements
-python compute_v3.py            # writes v3_results.json
-python verify_results.py
+REPO="$(pwd)"          # repository root
+TMP="$(mktemp -d)"     # temp dir outside the repo (PowerShell: New-Item -ItemType Directory)
+
+# 1) copy scripts and published inputs
+cp "$REPO/scripts/compute_v3.py" \
+   "$REPO/scripts/research_data_v2.py" \
+   "$REPO/scripts/verify_results.py" "$TMP"/
+cp "$REPO/data/processed/derived_metrics.json" \
+   "$REPO/data/processed/v1_data.json" "$TMP"/
+
+# 2) recompute, then verify THIS output explicitly
+cd "$TMP"
+python compute_v3.py
+python verify_results.py --metrics v3_results.json
+
+# 3) compare with the published baseline
+sha256sum v3_results.json "$REPO/data/processed/v3_results.json"
+cmp v3_results.json "$REPO/data/processed/v3_results.json" && echo "byte-identical"
 ```
 
-Measured on Python 3.12.10: the recomputed `final_score` matches the published version company by company, with identical thresholds (50.56 / 53.92) and 7 eligible companies.
+Measured (2026-11-19, Python 3.12.10): `compute_v3.py` rc=0; `verify_results.py --metrics v3_results.json` reports **PASS 60 / FAIL 0** against the freshly written file; its SHA256 equals the published `data/processed/v3_results.json` (`af899bc1…`) and `cmp` reports no difference. Hashes of repo inputs, published results and `figures/` are unchanged before and after.
 
-### What is *not* one-command reproducible
+> `verify_results.py` defaults to `../data/processed/v3_results.json` (the published file). After recomputing you must pass `--metrics <this run's output>`, otherwise it validates the published file and cannot prove the recomputation passed.
 
-The chart and HTML build scripts depend on intermediate files from the original project (`report_v4.md`, `report_v6_final.html`) and on fixed directory paths. They **cannot run as-is** inside this repository, which is why there is no `run_all.py`. What is reproducible is the *chart data* (`data/processed/chart_data/`), not the build entry point. Details in [`scripts/README.md`](scripts/README.md).
+### How far reproducibility goes (honest scope)
+
+| Stage | Status | Note |
+|---|---|---|
+| v3 score recompute | ✅ Reproducible | From `derived_metrics.json` + `v1_data.json`; byte-identical to the published result |
+| `derived_metrics.json` generation | ❌ Not reproducible | `compute_metrics.py` is legacy (17/28 fields); the complete generator is not included |
+| Published charts `figures/chart_*` | ❌ Not reproducible | Source project not included; `build_exhibits_v3.py` only regenerates the legacy `fig_*` set into `figures_rebuilt/` and cannot replace the published charts |
+| Report HTML build | ❌ Not reproducible | Depends on unpublished `report_v4.md`, `report_v6_final.html` |
+
+There is no `run_all.py`. Details in [`scripts/README.md`](scripts/README.md).
 
 ---
 
@@ -150,7 +179,7 @@ Formulas and assumptions: [`docs/methodology.md`](docs/methodology.md) · [`docs
 3. **Group-level only** — no segment cash flow, so the hog-segment runway is not measurable.
 4. **Runway relies on assumptions** — no refinancing, credit lines, asset sales, or government support modelled; restricted cash not deducted; 50% maintenance capex assumed. It is a ranking tool, not a bankruptcy countdown.
 5. **Limited manual verification** — only high-value doubts (inventory, convertible-bond totals) were traced to source; the rest relies on source annotations.
-6. **Incomplete source URLs** — 7 entries marked "to be added"; no URLs were invented.
+6. **Incomplete source URLs** — 6 entries marked "to be added" and 5 registered only at a site homepage; no article URLs were invented. Reachability of an endpoint does not mean the original text was verified.
 
 ---
 

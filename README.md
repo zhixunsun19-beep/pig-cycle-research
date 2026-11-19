@@ -39,7 +39,7 @@
 
 ```bash
 git clone https://github.com/zhixunsun19-beep/pig-cycle-research.git
-cd ./-/scripts
+cd pig-cycle-research/scripts
 python verify_results.py        # measured: PASS 60 / FAIL 0
 ```
 
@@ -71,7 +71,7 @@ python verify_results.py        # measured: PASS 60 / FAIL 0
 |---|---|---|
 | 网页（推荐） | [`report/report.html`](report/report.html) | 单文件，10 张图内嵌，断网可读；左侧目录，移动端可用 |
 | 正文源 | [`report/report.md`](report/report.md) | Markdown，便于 diff 与二次编辑 |
-| 打印版 | [`report/report_print.pdf`](report/report_print.pdf) | 22 页 A4 |
+| 打印版 | [`report/report_print.pdf`](report/report_print.pdf) | 22 页 A4；**v6.1 早期静态快照**，未同步本次首段补充的 3 家未纳入公司，内容以 `report.md` / `report.html` 为准 |
 | 速览 | [`report/report_notes.md`](report/report_notes.md) | 版本、检查范围、已知问题 |
 
 > GitHub Pages 建议把发布源设为仓库根目录，访问 `/report/report.html`。不要只部署 `docs/`，否则 `figures/` 会断链。
@@ -89,23 +89,52 @@ python verify_results.py
 
 它会核对：A2 未评分 9/9、有效满分 50/35、`final_score` 可复算且符合 cap 规则、7 家最终得分、待核实企业覆盖率与象限、阈值 50.56/53.92、六情景与关键跑道。任一不符会打印具体项并返回非零退出码。
 
-### 重算整套评分
+### 重算 v3 评分（基于已发布的中间数据）
+
+本仓库能复现的是**「用已发布的中间数据重算 v3 评分」**，不是「从原始财报端到端复现」。
+
+- 输入（均在仓库内）：`data/processed/derived_metrics.json`（15 家三表衍生指标，28 字段/家）、`data/processed/v1_data.json`（成本/出栏/事件/估值等研究数据层）。
+- 脚本：`scripts/compute_v3.py`、`scripts/research_data_v2.py`、`scripts/verify_results.py`。
+- 只用标准库，无需 `pip install`；实测 Python 3.12.10。
+- **上游缺口**：`scripts/compute_metrics.py` 是旧版生成器，只产出 17 字段/家，缺 `生产性生物资产_*`、`在建工程_*`、`期间费用_*`、`利润表扩展_*`、`资产负债表扩展_*` 共 11 个字段，直接用它覆盖输入会让 `compute_v3.py` 报错。完整生成器未随仓库提供，所以「原始三表 → derived_metrics」这一步不可复现。
+
+以下命令在**仓库根目录**执行，所有产物只写到仓库外的临时目录：
 
 ```bash
-cd scripts
-pip install -r requirements.txt
-cp -r ../data/raw ./raw
-cp ../data/processed/v1_data.json ../data/processed/derived_metrics.json ./
-python compute_metrics.py       # optional: rebuild derived metrics from the three statements
-python compute_v3.py            # writes v3_results.json
-python verify_results.py
+REPO="$(pwd)"          # repository root
+TMP="$(mktemp -d)"     # temp dir outside the repo (PowerShell: New-Item -ItemType Directory)
+
+# 1) copy scripts and published inputs
+cp "$REPO/scripts/compute_v3.py" \
+   "$REPO/scripts/research_data_v2.py" \
+   "$REPO/scripts/verify_results.py" "$TMP"/
+cp "$REPO/data/processed/derived_metrics.json" \
+   "$REPO/data/processed/v1_data.json" "$TMP"/
+
+# 2) recompute, then verify THIS output explicitly
+cd "$TMP"
+python compute_v3.py
+python verify_results.py --metrics v3_results.json
+
+# 3) compare with the published baseline
+sha256sum v3_results.json "$REPO/data/processed/v3_results.json"
+cmp v3_results.json "$REPO/data/processed/v3_results.json" && echo "byte-identical"
 ```
 
-实测环境 Python 3.12.10；重算的 `final_score` 与发布版逐家一致，阈值同为 50.56 / 53.92、合格企业 7 家。
+实测（2026-11-19，Python 3.12.10）：`compute_v3.py` rc=0；`verify_results.py --metrics v3_results.json` 为 **PASS 60 / FAIL 0**，读取的是临时目录里的新产物；新产物与 `data/processed/v3_results.json` 的 SHA256 同为 `af899bc1…`，`cmp` 无差异。运行前后仓库输入、发布结果与 `figures/` 的哈希不变。
 
-### 不能一键复现的部分
+> `verify_results.py` 的默认参数指向 `../data/processed/v3_results.json`（发布件）。重算后必须加 `--metrics <本次输出>`，否则校验的是发布件，不能用来证明重算通过。
 
-图表与 HTML 构建脚本依赖原研究项目的中间文件（`report_v4.md`、`report_v6_final.html`）和固定目录，**仓库内不能直接运行**，因此没有提供 `run_all.py`。图表可复现的是数据（`data/processed/chart_data/`），不是构建入口。逐项说明见 [`scripts/README.md`](scripts/README.md)。
+### 能复现到哪一步（如实说明）
+
+| 环节 | 状态 | 说明 |
+|---|---|---|
+| v3 评分重算 | ✅ 可复现 | 基于 `derived_metrics.json` + `v1_data.json`，与发布件字节一致 |
+| `derived_metrics.json` 生成 | ❌ 不可复现 | `compute_metrics.py` 为旧版（17/28 字段），完整生成器未随仓库提供 |
+| 发布图表 `figures/chart_*` | ❌ 不可复现 | 源工程未随仓库提供；`build_exhibits_v3.py` 只能生成旧版 `fig_*` 自绘图，输出到 `figures_rebuilt/`，不能替代发布图表 |
+| 报告 HTML 构建 | ❌ 不可复现 | 依赖未发布的 `report_v4.md`、`report_v6_final.html` |
+
+仓库不提供 `run_all.py`。逐项说明见 [`scripts/README.md`](scripts/README.md)。
 
 ---
 
@@ -150,7 +179,7 @@ python verify_results.py
 3. **集团口径**：无分部现金流，养猪业务跑道无法独立测算。
 4. **跑道含假设**：未计续贷、授信、资产处置；未扣受限资金；维持性资本开支 50% 为假设；跑道不是破产倒计时。
 5. **人工核验有限**：仅对存货、可转债合计等高价值疑点回溯原始数据，其余依赖来源标注。
-6. **来源链接不全**：登记册中 7 条标注「待补充」，未编造 URL。
+6. **来源链接不全**：登记册中 6 条标注「待补充」、5 条仅登记到站点主页，均未编造具体文章 URL。
 
 ---
 

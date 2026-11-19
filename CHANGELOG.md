@@ -4,6 +4,47 @@
 
 ---
 
+## [2026-11-19] 复核修复：复现链、校验口径与路径安全（不改模型）
+
+### 修复
+- **复现链**：README / `scripts/README.md` 的 v3 重算步骤改为「仓库外临时目录 + 显式 `--metrics`」；从推荐步骤移除 `compute_metrics.py`（旧版生成器，仅 17/28 字段，会让 `compute_v3.py` 因缺 `生产性生物资产_*` 报错）。
+- **范围说明**：明确仓库只支持「基于已发布中间数据重算 v3」，不支持「从原始财报端到端复现」，并列出输入与上游缺口。
+- **62/60 口径**：报告正文、HTML、`report_notes.md`、`docs/validation/*` 注明 62 项来自未入库的 `consistency_check.py`（历史自述、不可独立复跑），与仓库内 60 项不是同一套检查。
+- **路径**：`source-register.md` → `source_register.md`；`data-issues/` → `data/metadata/data_quality_issues.md`；`appendix/` → `docs/`；原工程 `reports/`、`outputs/`、`exhibits_v5/` 标「未随仓库提供」；`exhibits_v5/` 与 `figures/` 已逐张 SHA256 核对相同。
+- **快速开始**：`cd ./-/scripts` → `cd pig-cycle-research/scripts`（中英一致）。
+- **图表脚本**：统一表述为「可运行，但只产出旧版 `fig_*`，不能替代发布图表」；`sys.path` 改为 scripts 目录优先；`figures_rebuilt/` 加入 `.gitignore`。
+- **输入查找**：`research_data_v2._find()` 打印实际命中路径，存在多副本时告警。
+- **文档小修**：核心池「8 家 A2 未评分」→ 9 家；删除重复标题；PDF 标注为早期静态快照；来源统计中英统一为 2/5/6/1；接口可达不等同原文已核验。
+
+### 验证（2026-11-19，Python 3.12.10）
+- 隔离流程：`compute_v3.py` rc=0；`verify_results.py --metrics v3_results.json` → **PASS 60 / FAIL 0**（读取本次产物）。
+- 重算件与 `data/processed/v3_results.json` SHA256 同为 `af899bc1…`，`cmp` 无差异。
+- 运行前后仓库输入、发布结果、`figures/` 哈希不变；`build_exhibits_v3.py` 只新增 `figures_rebuilt/` 下 10 个 PNG。
+
+### 未改
+评分方法、权重、阈值、情景假设、数据截止日、公司分层、研究结论、LICENSE、仓库可见性。
+
+### 新增
+- `data/processed/VERSION_NOTES.md`：v2/v3 版本说明、9 家最终得分差异表（7 家不同、2 家相同）、差异来源与使用规则。旧文件数值未改。
+
+### 修复
+- **旧路径清理**：`outputs/pig_research_v2_20261115/` → 仓库路径（`data/processed/`、`data/raw/`、`scripts/`），涉及 `docs/validation/data_validation.md`、`report/report.md`、`report/report.html`、`sources/source_register.md`、`scripts/build_exhibits_v3.py`、`scripts/fetch_v2.py`、`scripts/README.md`。
+- **S-14**：由失效的本地数据包路径改为仓库内文件，状态改「仓库内已核对」。
+- **来源统计统一**：按登记册实际条目重清点为「接口可用 2 / 仅站点主页 5 / 待补充 6 / 仓库内已核对 1 = 14」，修正此前多处「待补充 7 条、通用主页 4 条」的不一致；未新增任何原文链接，也未把主页标成已核实。
+- **补 3 家未纳入公司**：报告首段由「另有 3 家本轮不纳入」补为「正虹科技 000702、金新农 002548、罗牛山 000735」及原因（依据 `scripts/research_data_v2.py` 的 `EXCLUDED` 常量）。
+- **脚本路径适配**：`research_data_v2.py` 增加 `v1_data.json` 查找回退（先同目录、再 `../data/processed`）；`build_exhibits_v3.py` 改读 `data/processed`、输出 `figures_rebuilt/`（避免覆盖正式图表）。
+
+### 验证（本次实际执行）
+- `compute_v3.py` 在隔离副本重算 → 与 `v3_results.json` **SHA256 相同、0 字段差异**。
+- `verify_results.py` → **60/60 PASS**（隔离副本与仓库目录各一次）。
+- `v3_results.json` vs `chart_data/score_quadrants.csv` → 9 家 × 7 字段 + 阈值全部一致。
+- `build_exhibits_v3.py` → rc=0，生成 10 张 PNG；但属旧版自绘图，与 `figures/chart_*` 非同一资产，已改为不覆盖。
+
+### 未改
+评分方法、权重、阈值、假设、数据截止日、公司分层与结论均未改动；许可与仓库可见性未改。
+
+---
+
 ## [v6.1] — 2026-11-17（发布候选）
 
 ### 修复（三项定点问题）
