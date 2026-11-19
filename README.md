@@ -89,52 +89,39 @@ python verify_results.py
 
 它会核对：A2 未评分 9/9、有效满分 50/35、`final_score` 可复算且符合 cap 规则、7 家最终得分、待核实企业覆盖率与象限、阈值 50.56/53.92、六情景与关键跑道。任一不符会打印具体项并返回非零退出码。
 
-### 重算 v3 评分（基于已发布的中间数据）
+### 全链重算（原始三表 → 中间指标 → v3）
 
-本仓库能复现的是**「用已发布的中间数据重算 v3 评分」**，不是「从原始财报端到端复现」。
-
-- 输入（均在仓库内）：`data/processed/derived_metrics.json`（15 家三表衍生指标，28 字段/家）、`data/processed/v1_data.json`（成本/出栏/事件/估值等研究数据层）。
-- 脚本：`scripts/compute_v3.py`、`scripts/research_data_v2.py`、`scripts/verify_results.py`。
-- 只用标准库，无需 `pip install`；实测 Python 3.12.10。
-- **上游缺口**：`scripts/compute_metrics.py` 是旧版生成器，只产出 17 字段/家，缺 `生产性生物资产_*`、`在建工程_*`、`期间费用_*`、`利润表扩展_*`、`资产负债表扩展_*` 共 11 个字段，直接用它覆盖输入会让 `compute_v3.py` 报错。完整生成器未随仓库提供，所以「原始三表 → derived_metrics」这一步不可复现。
-
-以下命令在**仓库根目录**执行，所有产物只写到仓库外的临时目录：
+本仓库现在可以**从原始三表完整重算**：`data/raw` → 28 字段中间指标 → v3 评分 → 60 项校验。
 
 ```bash
-REPO="$(pwd)"          # repository root
-TMP="$(mktemp -d)"     # temp dir outside the repo (PowerShell: New-Item -ItemType Directory)
-
-# 1) copy scripts and published inputs
-cp "$REPO/scripts/compute_v3.py" \
-   "$REPO/scripts/research_data_v2.py" \
-   "$REPO/scripts/verify_results.py" "$TMP"/
-cp "$REPO/data/processed/derived_metrics.json" \
-   "$REPO/data/processed/v1_data.json" "$TMP"/
-
-# 2) recompute, then verify THIS output explicitly
-cd "$TMP"
-python compute_v3.py
-python verify_results.py --metrics v3_results.json
-
-# 3) compare with the published baseline
-sha256sum v3_results.json "$REPO/data/processed/v3_results.json"
-cmp v3_results.json "$REPO/data/processed/v3_results.json" && echo "byte-identical"
+py -3.12 scripts/run_pipeline.py --raw data/raw --out build/chain --compare-baseline
 ```
 
-实测（2026-11-19，Python 3.12.10）：`compute_v3.py` rc=0；`verify_results.py --metrics v3_results.json` 为 **PASS 60 / FAIL 0**，读取的是临时目录里的新产物；新产物与 `data/processed/v3_results.json` 的 SHA256 同为 `af899bc1…`，`cmp` 无差异。运行前后仓库输入、发布结果与 `figures/` 的哈希不变。
+- 输入：`data/raw/*.json`（15 家 × 8 期三表）、`scripts/research_data_v2.py` 的研究数据层（`v1_data.json`）。
+- 输出：`build/chain/derived_metrics.json`、`v3_results.json`、`logs/`、`manifest.json`、`baseline_diff.json`。
+- **只用标准库**，无需 `pip install`；实测 Python 3.12.10。
+- 计算不读取发布版 `derived_metrics.json` / `v3_results.json`；`--compare-baseline` 只在算完后做事后比较。
 
-> `verify_results.py` 的默认参数指向 `../data/processed/v3_results.json`（发布件）。重算后必须加 `--metrics <本次输出>`，否则校验的是发布件，不能用来证明重算通过。
+实测（2026-11-19，Python 3.12.10）：step1/2/3 均 rc=0；`verify_results.py --metrics <本次产物>` 为 **PASS 60 / FAIL 0**；
+`v3_results.json` 与发布件 SHA256 同为 `af899bc1…`（字节一致）；`derived_metrics.json` 仅「归母净利润」15 家 × 2 期
+与发布版不同（旧映射科目名有误，未参与评分），其余字段逐项一致。发布数据、`figures/`、报告均未被写入。
 
 ### 能复现到哪一步（如实说明）
 
 | 环节 | 状态 | 说明 |
 |---|---|---|
-| v3 评分重算 | ✅ 可复现 | 基于 `derived_metrics.json` + `v1_data.json`，与发布件字节一致 |
-| `derived_metrics.json` 生成 | ❌ 不可复现 | `compute_metrics.py` 为旧版（17/28 字段），完整生成器未随仓库提供 |
-| 发布图表 `figures/chart_*` | ❌ 不可复现 | 源工程未随仓库提供；`build_exhibits_v3.py` 只能生成旧版 `fig_*` 自绘图，输出到 `figures_rebuilt/`，不能替代发布图表 |
+| 原始三表 → 中间指标 | ✅ 可复现 | `scripts/build_derived_metrics.py`，28 字段/家，100% 由 `data/raw` 计算 |
+| v3 评分 | ✅ 可复现 | 与发布件字节一致；阈值与分层不变 |
+| 发布图表 `figures/chart_*` | ⚠️ 有替代工程 | 原 v5 源工程未找回；`chartgen/` 为可维护替代实现，输出到 `chartgen/out/`，不覆盖发布图 |
 | 报告 HTML 构建 | ❌ 不可复现 | 依赖未发布的 `report_v4.md`、`report_v6_final.html` |
 
-仓库不提供 `run_all.py`。逐项说明见 [`scripts/README.md`](scripts/README.md)。
+图表替代工程：
+
+```bash
+py -3.12 chartgen/build_charts.py && py -3.12 chartgen/verify_charts.py
+```
+
+逐项说明见 [`scripts/README.md`](scripts/README.md)、[`audit/chain_validation.md`](audit/chain_validation.md)、[`chartgen/README.md`](chartgen/README.md)。
 
 ---
 

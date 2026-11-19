@@ -1,0 +1,128 @@
+[
+ {
+  "id": "S-01",
+  "name": "新浪财经财报三表接口 CompanyFinanceService.getFinanceReport2022",
+  "type": "一手（交易所披露的定期报告原始科目）",
+  "coverage": "15 家 × 8 期资产负债表/利润表/现金流量表",
+  "sections": "全部财务数字（§5、§6、§10）",
+  "url": "https://quotes.sina.cn/cn/api/openapi.php/CompanyFinanceService.getFinanceReport2022",
+  "status": "接口可用"
+ },
+ {
+  "id": "S-02",
+  "name": "腾讯行情批量接口 qt.gtimg.cn",
+  "type": "行情（2026-11-13 收盘，内嵌时间戳 20261113161415）",
+  "coverage": "收盘价/总市值/PE-TTM/PB",
+  "sections": "§7 弹性、§8 估值",
+  "url": "https://qt.gtimg.cn/q=sz002714",
+  "status": "接口可用"
+ },
+ {
+  "id": "S-03",
+  "name": "公司月度销售简报与经营数据公告（牧原/温氏/新希望/神农/天康/新五丰/华统/傲农/大北农）",
+  "type": "一手",
+  "coverage": "出栏量、月度均价",
+  "sections": "§4 竞争格局、§6–§7",
+  "url": "http://www.cninfo.com.cn（检索各公司公告编号：2026-079、2026-115 等）",
+  "status": "仅站点主页"
+ },
+ {
+  "id": "S-04",
+  "name": "投资者关系活动记录表/互动平台答复（牧原 2026-03-28、天康 2026-10-29、神农 2026-10-28、巨星 2026-10-30、华统互动易、东瑞 2026-08-28、大北农 2026-10-30 等）",
+  "type": "一手（未审计）",
+  "coverage": "完全成本、PSY、经营动作",
+  "sections": "§4 成本、§8 深度分析",
+  "url": "http://www.cninfo.com.cn / 深交所互动易 http://irm.cninfo.com.cn",
+  "status": "仅站点主页"
+ },
+ {
+  "id": "S-05",
+  "name": "可转债募集说明书条款（温氏转债/牧原转债/希望转2）",
+  "type": "一手",
+  "coverage": "到期日、初始发行规模",
+  "sections": "§5 转债压力",
+  "url": "待补充（需逐份调阅）",
+  "status": "待补充"
+ },
+ {
+  "id": "S-06",
+  "name": "巨潮公告：巨星 2026-119（担保）、华统 2026-079（担保）、唐人神 2026-068（减值）、大北农 2026-094（实控人变更）、天邦预重整进展公告",
+  "type": "一手",
+  "coverage": "担保/减值/控制权/重整",
+  "sections": "§8、§9",
+  "url": "http://www.cninfo.com.cn",
+  "status": "仅站点主页"
+ },
+ {
+  "id": "S-07",
+  "name": "福建证监局〔2026〕24 号行政处罚决定书",
+  "type": "一手",
+  "coverage": "傲农信披处罚",
+  "sections": "§9",
+  "url": "待补充（官网文书检索）",
+  "status": "待补充"
+ },
+ {
+  "id": "S-08",
+  "name": "五部委/国家统计局/海关总署月度与季度数据（经媒体转载）",
+  "type": "官方·转载",
+  "coverage": "能繁母猪、出栏、产量、屠宰量、进口",
+  "sections": "§3",
+  "url": "https://data.stats.gov.cn",
+  "status": "仅站点主页"
+ },
+ {
+  "id": "S-09",
+  "name": "Mysteel/卓创/涌益/钢联监测",
+  "type": "咨询·二手",
+  "coverage": "猪价、头均盈亏、均重、冻品库容率",
+  "sections": "§3、§7",
+  "url": "https://www.mysteel.cn",
+  "status": "仅站点主页"
+ },
+ {
+  "id": "S-10",
+  "name": "长江证券/证券时报/中国养猪网/今报在线/立鼎（周期划分）",
+  "type": "二手",
+  "coverage": "五轮周期、连亏周数",
+  "sections": "§3",
+  "url": "待补充",
+  "status": "待补充"
+ },
+ {
+  "id": "S-11",
+  "name": "Wind/石羊农科问询回复（玉米、豆粕均价）",
+  "type": "企业公告·二手",
+  "coverage": "原料价格",
+  "sections": "§4 归因",
+  "url": "待补充",
+  "status": "待补充"
+ },
+ {
+  "id": "S-12",
+  "name": "机构盈利预测（广发 2026-11-11、国盛 2026-11-07、财通 2026-11-01、开源 2026-10-25、国信 2026-10-28、中证鹏元 2026-06-22、联合资信 2026-06-22、惠誉 2026-09-30）",
+  "type": "预测·非一手",
+  "coverage": "2026-2028E、评级",
+  "sections": "§8、§9",
+  "url": "待补充",
+  "status": "待补充"
+ },
+ {
+  "id": "S-13",
+  "name": "中证畜牧养殖指数 PB / 申万畜禽 PB 分位（雪球个人测算）",
+  "type": "非机构口径",
+  "coverage": "估值分位",
+  "sections": "§8",
+  "url": "待补充",
+  "status": "待补充"
+ },
+ {
+  "id": "S-14",
+  "name": "本仓库数据目录（`data/processed/v3_results.json`、`data/processed/derived_metrics.json`、`scripts/research_data_v2.py`、9 个 `data/processed/v2_*.csv`）",
+  "type": "一手+测算",
+  "coverage": "全部数字的直接来源",
+  "sections": "全文",
+  "url": "（仓库内文件，非 URL）",
+  "status": "仓库内已核对"
+ }
+]

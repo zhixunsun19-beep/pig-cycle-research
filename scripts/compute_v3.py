@@ -8,6 +8,7 @@
    待核实区企业不参与阈值、不获得正式象限标签。
 输出 v3_results.json；v2_results.json 原样保留供新旧对比。
 """
+import argparse
 import json
 import re
 import statistics
@@ -16,7 +17,9 @@ from pathlib import Path
 import research_data_v2 as D
 
 BASE = Path(__file__).resolve().parent
-M = json.loads((BASE / "derived_metrics.json").read_text(encoding="utf-8"))
+# 计算输入（derived_metrics.json 的内容）；默认读脚本同目录，可用 --derived 覆盖。
+# 公式、权重、阈值均不随入口变化。
+M = None
 
 CORE = [c for c, _ in D.CORE]
 POOL = [c for c, _ in D.POOL]
@@ -429,6 +432,21 @@ def rankings(S, Q, ST):
 
 
 def main():
+    global M
+    ap = argparse.ArgumentParser(description="v3 评分（输入/输出路径可显式指定，计算逻辑不变）")
+    ap.add_argument("--derived", default=str(BASE / "derived_metrics.json"),
+                    help="中间指标 JSON（默认脚本同目录 derived_metrics.json）")
+    ap.add_argument("--out", default=str(BASE / "v3_results.json"),
+                    help="结果输出路径（默认脚本同目录 v3_results.json）")
+    args = ap.parse_args()
+    derived_path = Path(args.derived).resolve()
+    out_path = Path(args.out).resolve()
+    if not derived_path.exists():
+        raise SystemExit(f"[error] 找不到中间指标文件：{derived_path}")
+    M = json.loads(derived_path.read_text(encoding="utf-8"))
+    print(f"[input] derived: {derived_path}")
+    print(f"[output] v3_results: {out_path}")
+
     A = availability()
     S = score_all()
     ST = stress_all()
@@ -441,8 +459,9 @@ def main():
                             a_weights=dict((k, w) for k, _, w in A_ITEMS),
                             b_weights=dict((k, w) for k, _, w in B_ITEMS)),
                   availability=A, scores=S, stress=ST, elasticity=E, quadrants=Q, rankings=R)
-    (BASE / "v3_results.json").write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"已写出 v3_results.json｜核心 {len(CORE)} 家 / 全池 {len(POOL)} 家")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"已写出 {out_path.name}｜核心 {len(CORE)} 家 / 全池 {len(POOL)} 家")
     print("\n=== 综合评分（可比得分率，0–100）===")
     print(f"{'公司':<8}{'生存':>8}{'弹性':>8}{'原始分':>9}{'有效满分':>10}{'覆盖率':>9}{'可比得分':>10}{'最终':>8}{'置信':>6}{'象限':>6}{'主榜':>6}")
     for c in R["total"]:

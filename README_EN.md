@@ -89,52 +89,40 @@ python verify_results.py
 
 It checks: A2 unscored for 9/9, effective maxima 50/35, `final_score` recomputable and consistent with the cap rule, the 7 published scores, coverage and quadrant labels of the pending-review names, thresholds 50.56/53.92, six scenarios, and key runway values. Any mismatch prints the failing item and exits non-zero.
 
-### Recompute the v3 score (from published intermediate data)
+### Full-chain recompute (raw statements → intermediate metrics → v3)
 
-What this repository reproduces is **recomputing the v3 score from the published intermediate data** — not an end-to-end rebuild from the raw financial statements.
-
-- Inputs (both in this repo): `data/processed/derived_metrics.json` (15 companies, 28 fields each) and `data/processed/v1_data.json` (cost/output/events/valuation research layer).
-- Scripts: `scripts/compute_v3.py`, `scripts/research_data_v2.py`, `scripts/verify_results.py`.
-- Standard library only — no `pip install`; measured on Python 3.12.10.
-- **Upstream gap**: `scripts/compute_metrics.py` is a legacy generator producing only 17 fields per company. It lacks 11 fields (`生产性生物资产_*`, `在建工程_*`, `期间费用_*`, `利润表扩展_*`, `资产负债表扩展_*`), so overwriting the input with its output makes `compute_v3.py` fail. The complete generator is not included, so "raw statements → derived_metrics" cannot be reproduced.
-
-Run the following from the **repository root**; all outputs go to a temporary directory outside the repo:
+The repository now rebuilds **from the raw statements**: `data/raw` → 28-field intermediate metrics → v3 score → 60 checks.
 
 ```bash
-REPO="$(pwd)"          # repository root
-TMP="$(mktemp -d)"     # temp dir outside the repo (PowerShell: New-Item -ItemType Directory)
-
-# 1) copy scripts and published inputs
-cp "$REPO/scripts/compute_v3.py" \
-   "$REPO/scripts/research_data_v2.py" \
-   "$REPO/scripts/verify_results.py" "$TMP"/
-cp "$REPO/data/processed/derived_metrics.json" \
-   "$REPO/data/processed/v1_data.json" "$TMP"/
-
-# 2) recompute, then verify THIS output explicitly
-cd "$TMP"
-python compute_v3.py
-python verify_results.py --metrics v3_results.json
-
-# 3) compare with the published baseline
-sha256sum v3_results.json "$REPO/data/processed/v3_results.json"
-cmp v3_results.json "$REPO/data/processed/v3_results.json" && echo "byte-identical"
+py -3.12 scripts/run_pipeline.py --raw data/raw --out build/chain --compare-baseline
 ```
 
-Measured (2026-11-19, Python 3.12.10): `compute_v3.py` rc=0; `verify_results.py --metrics v3_results.json` reports **PASS 60 / FAIL 0** against the freshly written file; its SHA256 equals the published `data/processed/v3_results.json` (`af899bc1…`) and `cmp` reports no difference. Hashes of repo inputs, published results and `figures/` are unchanged before and after.
+- Inputs: `data/raw/*.json` (15 companies × 8 periods) and the research layer in `scripts/research_data_v2.py` (`v1_data.json`).
+- Outputs: `build/chain/derived_metrics.json`, `v3_results.json`, `logs/`, `manifest.json`, `baseline_diff.json`.
+- **Standard library only** — no `pip install`; measured on Python 3.12.10.
+- The computation does **not** read the published `derived_metrics.json` / `v3_results.json`; `--compare-baseline` reads them only after the run, for comparison.
 
-> `verify_results.py` defaults to `../data/processed/v3_results.json` (the published file). After recomputing you must pass `--metrics <this run's output>`, otherwise it validates the published file and cannot prove the recomputation passed.
+Measured (2026-11-19, Python 3.12.10): steps 1–3 all rc=0; `verify_results.py --metrics <this run's output>` reports **PASS 60 / FAIL 0**;
+`v3_results.json` has the same SHA256 as the published file (`af899bc1…`, byte-identical); `derived_metrics.json` differs only in
+"net profit attributable to parent" for 15 companies × 2 periods (a legacy title-mapping bug, unused by the score), all other fields match.
+Published data, `figures/` and the report are not written to.
 
 ### How far reproducibility goes (honest scope)
 
 | Stage | Status | Note |
 |---|---|---|
-| v3 score recompute | ✅ Reproducible | From `derived_metrics.json` + `v1_data.json`; byte-identical to the published result |
-| `derived_metrics.json` generation | ❌ Not reproducible | `compute_metrics.py` is legacy (17/28 fields); the complete generator is not included |
-| Published charts `figures/chart_*` | ❌ Not reproducible | Source project not included; `build_exhibits_v3.py` only regenerates the legacy `fig_*` set into `figures_rebuilt/` and cannot replace the published charts |
+| Raw statements → intermediate metrics | ✅ Reproducible | `scripts/build_derived_metrics.py`, 28 fields per company, fully computed from `data/raw` |
+| v3 score | ✅ Reproducible | Byte-identical to the published result; thresholds and layering unchanged |
+| Published charts `figures/chart_*` | ⚠️ Alternative project | Original v5 source project not recovered; `chartgen/` is a maintainable replacement writing to `chartgen/out/`, never overwriting published charts |
 | Report HTML build | ❌ Not reproducible | Depends on unpublished `report_v4.md`, `report_v6_final.html` |
 
-There is no `run_all.py`. Details in [`scripts/README.md`](scripts/README.md).
+Chart replacement:
+
+```bash
+py -3.12 chartgen/build_charts.py && py -3.12 chartgen/verify_charts.py
+```
+
+Details: [`scripts/README.md`](scripts/README.md), [`audit/chain_validation.md`](audit/chain_validation.md), [`chartgen/README.md`](chartgen/README.md).
 
 ---
 

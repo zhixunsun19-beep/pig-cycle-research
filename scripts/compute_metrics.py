@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-"""从 14 家猪企财报三表原始数据计算研究指标。
+"""【历史版本 · 不用于 v3 计算】从财报三表计算 17 个研究指标。
+
+⚠️ 本文件是 2026-11 的早期生成器，只输出 17 个字段，缺少
+`利润表扩展_*`、`资产负债表扩展_*`、`期间费用_*`、`生产性生物资产_*`、
+`在建工程_*` 等 11 个字段；直接用它覆盖 derived_metrics.json 会让
+`compute_v3.py` 因缺 `生产性生物资产_*` 报错。**推荐链路改用
+`build_derived_metrics.py`**（28 字段，可完整复算）。本文件仅保留作历史参考。
 
 口径（严格按研究需求定义，全部可复现）：
 - 金额单位：元 → 亿元（/1e8），保留 2 位小数。
@@ -96,6 +102,8 @@ def s(*vals):
 
 
 def main():
+    print("[warn] compute_metrics.py 为历史版本（17 字段），不供 v3 使用；"
+          "推荐 scripts/build_derived_metrics.py（28 字段）", flush=True)
     result = {}
     for fp in sorted(RAW.glob("*.json")):
         rec = json.loads(fp.read_text(encoding="utf-8"))

@@ -1,0 +1,38 @@
+[
+ {
+  "code": "002714",
+  "name": "牧原股份",
+  "title": "2026年三季度报告",
+  "publish_date": "2026-10-30",
+  "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225639870.PDF",
+  "retrieved_at": "2026-11-19 18:42 +08:00",
+  "bytes": 392873,
+  "pages": 11,
+  "sha256": "ba05a17c10c6b5729ff89efe9c6f55843067c9809ff30c9922ee99e8d5bfc28b",
+  "saved_locally": false
+ },
+ {
+  "code": "300498",
+  "name": "温氏股份",
+  "title": "2026年三季度报告",
+  "publish_date": "2026-10-22",
+  "url": "https://static.cninfo.com.cn/finalpage/2026-10-22/1225613922.PDF",
+  "retrieved_at": "2026-11-19 18:42 +08:00",
+  "bytes": 222270,
+  "pages": 15,
+  "sha256": "a37d36cd0c888269e9ce82aa277734cf77a11ca6947d4f094f8e69fc5ef2bc9e",
+  "saved_locally": false
+ },
+ {
+  "code": "002157",
+  "name": "正邦科技",
+  "title": "2026年三季度报告",
+  "publish_date": "2026-10-30",
+  "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225639331.PDF",
+  "retrieved_at": "2026-11-19 18:42 +08:00",
+  "bytes": 221520,
+  "pages": 11,
+  "sha256": "12bdb8e63f70c3edcf4f51f5f25a8ba1da2f11740be6a4cefbe18347d7372317",
+  "saved_locally": false
+ }
+]
