@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "引用本仓库时请使用以下信息。"
+title: "A股生猪养殖企业穿越猪周期研究：底部生存能力与复苏盈利弹性双维度评价"
+version: "v6.1"
+date-released: "2026-11-15"  # 数据截止日；实际发布日请按需修改
+authors:
+  - family-names: "Zhi"
+    given-names: "Xun"
+    alias: "至洵"
+abstract: >-
+  以底部生存能力 × 复苏盈利弹性双维度框架，对 15 家 A 股生猪养殖上市公司
+  （核心研究池 9 家、风险观察池 6 家）进行成本、财务安全、六情景现金跑道压力测试
+  与盈利弹性评估，并给出四象限分层。研究基准为 2026 年三季报与 2026-11-13 行情。
+keywords:
+  - 生猪养殖
+  - 猪周期
+  - 财务安全
+  - 现金跑道
+  - 盈利弹性
+  - A股
+license: "见 LICENSE（代码 MIT；报告与文档 CC BY-NC 4.0）"
+repository-code: "https://github.com/zhixunsun19-beep/pig-cycle-research"

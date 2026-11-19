@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="943.56pt" height="585.462pt" viewBox="0 0 943.56 585.462" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-11-17T03:41:36.252187</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.8, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 585.462 
+L 943.56 585.462 
+L 943.56 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 132.48 469.872 
+L 936.36 469.872 
+L 936.36 94.896 
+L 132.48 94.896 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 151.194361 469.872 
+L 151.194361 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2"/>
+     <g id="text_1">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="151.194361" y="485.025281" transform="rotate(-0 151.194361 485.025281)">-30</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 275.823827 469.872 
+L 275.823827 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4"/>
+     <g id="text_2">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="275.823827" y="485.025281" transform="rotate(-0 275.823827 485.025281)">-25</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 400.453294 469.872 
+L 400.453294 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6"/>
+     <g id="text_3">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="400.453294" y="485.025281" transform="rotate(-0 400.453294 485.025281)">-20</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 525.08276 469.872 
+L 525.08276 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8"/>
+     <g id="text_4">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="525.08276" y="485.025281" transform="rotate(-0 525.08276 485.025281)">-15</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 649.712227 469.872 
+L 649.712227 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10"/>
+     <g id="text_5">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="649.712227" y="485.025281" transform="rotate(-0 649.712227 485.025281)">-10</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 774.341693 469.872 
+L 774.341693 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12"/>
+     <g id="text_6">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="774.341693" y="485.025281" transform="rotate(-0 774.341693 485.025281)">-5</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 898.97116 469.872 
+L 898.97116 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #e8edf3; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14"/>
+     <g id="text_7">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #475569" x="898.97116" y="485.025281" transform="rotate(-0 898.97116 485.025281)">0</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 12.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: middle; fill: #334155" x="534.42" y="501.608719" transform="rotate(-0 534.42 501.608719)">理论损益变化（亿元）</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_15"/>
+     <g id="text_9">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="441.441278" transform="rotate(-0 126.48 441.441278)">牧原股份</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_16"/>
+     <g id="text_10">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="389.947732" transform="rotate(-0 126.48 389.947732)">温氏股份</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_17"/>
+     <g id="text_11">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="338.454186" transform="rotate(-0 126.48 338.454186)">新希望</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_18"/>
+     <g id="text_12">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="286.960641" transform="rotate(-0 126.48 286.960641)">巨星农牧</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_19"/>
+     <g id="text_13">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="235.467095" transform="rotate(-0 126.48 235.467095)">天康生物</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_20"/>
+     <g id="text_14">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="183.973549" transform="rotate(-0 126.48 183.973549)">神农集团</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_21"/>
+     <g id="text_15">
+      <text style="font-size: 11.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #334155" x="126.48" y="132.480003" transform="rotate(-0 126.48 132.480003)">华统股份</text>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_22">
+    <path d="M 898.97116 469.872 
+L 898.97116 94.896 
+" clip-path="url(#pa5ce96000a)" style="fill: none; stroke: #1f2937; stroke-width: 1.2; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 132.48 469.872 
+L 132.48 94.896 
+" style="fill: none; stroke: #d8e0e8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 132.48 469.872 
+L 936.36 469.872 
+" style="fill: none; stroke: #d8e0e8; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 898.97116 452.827636 
+L 249.40238 452.827636 
+L 249.40238 420.901638 
+L 898.97116 420.901638 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 898.97116 401.334091 
+L 535.800894 401.334091 
+L 535.800894 369.408092 
+L 898.97116 369.408092 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 898.97116 349.840545 
+L 731.469157 349.840545 
+L 731.469157 317.914547 
+L 898.97116 317.914547 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 898.97116 298.346999 
+L 857.594177 298.346999 
+L 857.594177 266.421001 
+L 898.97116 266.421001 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 898.97116 246.853453 
+L 862.080838 246.853453 
+L 862.080838 214.927455 
+L 898.97116 214.927455 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 898.97116 195.359908 
+L 866.31824 195.359908 
+L 866.31824 163.433909 
+L 898.97116 163.433909 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 898.97116 143.866362 
+L 876.039338 143.866362 
+L 876.039338 111.940364 
+L 898.97116 111.940364 
+z
+" clip-path="url(#pa5ce96000a)" style="fill: #b94a48"/>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="240.678318" y="440.129262" transform="rotate(-0 240.678318 440.129262)">-26.06亿元</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="527.076832" y="388.635716" transform="rotate(-0 527.076832 388.635716)">-14.57亿元</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="722.745094" y="337.142171" transform="rotate(-0 722.745094 337.142171)">-6.72亿元</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="848.870114" y="285.648625" transform="rotate(-0 848.870114 285.648625)">-1.66亿元</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="853.356775" y="234.155079" transform="rotate(-0 853.356775 234.155079)">-1.48亿元</text>
+   </g>
+   <g id="text_21">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="857.594177" y="182.661534" transform="rotate(-0 857.594177 182.661534)">-1.31亿元</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: end; fill: #b94a48" x="867.315276" y="131.167988" transform="rotate(-0 867.315276 131.167988)">-0.92亿元</text>
+   </g>
+  </g>
+  <g id="text_23">
+   <text style="font-weight: 700; font-size: 19px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: start; fill: #1f2937" x="7.2" y="22.361406" transform="rotate(-0 7.2 22.361406)">图9  当前猪价下，出栏增加10%的理论损益变化</text>
+  </g>
+  <g id="text_24">
+   <text style="font-size: 12.5px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: start; fill: #64748b" x="7.2" y="41.7872" transform="rotate(-0 7.2 41.7872)">基准猪价：8.60元/kg　｜　负值表示在当前成本与猪价下扩大理论经营亏损</text>
+  </g>
+  <g id="text_25">
+   <g id="patch_12">
+    <path d="M 153.36 547.5895 
+L 388.56 547.5895 
+Q 394.16 547.5895 394.16 541.9895 
+L 394.16 530.5095 
+Q 394.16 524.9095 388.56 524.9095 
+L 153.36 524.9095 
+Q 147.76 524.9095 147.76 530.5095 
+L 147.76 541.9895 
+Q 147.76 547.5895 153.36 547.5895 
+z
+" style="fill: #f4f6f8; stroke: #d8e0e8; stroke-linejoin: miter"/>
+   </g>
+   <text style="font-size: 11.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: start; fill: #64748b" x="153.36" y="539.424" transform="rotate(-0 153.36 539.424)">无法测算：唐人神、新五丰（完全成本未披露）</text>
+  </g>
+  <g id="text_26">
+   <text style="font-size: 10.2px; font-family: 'Noto Sans CJK JP','Microsoft YaHei','PingFang SC',sans-serif; text-anchor: start; fill: #64748b" x="7.2" y="575.712" transform="rotate(-0 7.2 575.712)">计算：10% ×（8.60 − 完全成本）× 120kg × 年化出栏量。静态测算未考虑主动减产、出栏结构、成本变化及其他经营因素，不是公司净利润预测。</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa5ce96000a">
+   <rect x="132.48" y="94.896" width="803.88" height="374.976"/>
+  </clipPath>
+ </defs>
+</svg>
